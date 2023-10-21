@@ -1,16 +1,36 @@
 from abc import ABC, abstractmethod
-from arma import *
+from Arma import Arma
 
 class Personagem(ABC):
-    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int):
+    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, imagem: str):
         self.__nome = nome
         self.__vidas = vidas
         self.__x = x
         self.__y = y
         self.__arma = arma
         self.__velocidade = velocidade
+        self.__imagem = imagem
+
+    def mover_esquerda(self):
+        self.__x -= self.__velocidade  
+
+    def mover_direita(self):
+        self.__x += self.__velocidade  
+    
+    def mover_cima(self):
+        self.__y -= self.__velocidade  
+    
+    def mover_baixo(self):
+        self.__y += self.__velocidade
 
 #Getters e setters da classe
+    @property
+    def imagem(self):
+        return self.__imagem
+    
+    @imagem.setter
+    def imagem(self, imagem):
+        self.__imagem = imagem
     
     @property
     def nome(self):
@@ -18,7 +38,7 @@ class Personagem(ABC):
     
     @nome.setter
     def nome(self, nome):
-        self.nome = nome
+        self.__nome = nome
 
     @property
     def vidas(self):
@@ -26,7 +46,7 @@ class Personagem(ABC):
     
     @vidas.setter
     def vidas(self, vidas):
-        self.vidas = vidas
+        self.__vidas = vidas
 
     @property
     def x(self):
@@ -34,7 +54,7 @@ class Personagem(ABC):
     
     @x.setter
     def x(self, x):
-        self.x = x
+        self.__x = x
 
     @property
     def y(self):
@@ -42,7 +62,7 @@ class Personagem(ABC):
     
     @y.setter
     def y(self, y):
-        self.y = y
+        self.__y = y
 
     @property
     def arma(self):
@@ -50,7 +70,7 @@ class Personagem(ABC):
     
     @arma.setter
     def arma(self, arma):
-        self.arma = arma
+        self.__arma = arma
 
     @property
     def velocidade(self):
@@ -58,10 +78,10 @@ class Personagem(ABC):
     
     @velocidade.setter
     def velocidade(self, velocidade):
-        self.velocidade = velocidade
+        self.__velocidade = velocidade
 
 #Demais métodos
-
+"""
     @abstractmethod
     def levar_dano(self):
         pass
@@ -73,3 +93,5 @@ class Personagem(ABC):
     @abstractmethod
     def mover(self):
         pass
+        
+"""

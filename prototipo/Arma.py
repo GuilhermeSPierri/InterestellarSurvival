@@ -1,4 +1,4 @@
-from projetil import *
+from Projetil import Projetil
 
 class Arma:
     def __init__(self, nome: str, projetil: Projetil):
@@ -12,7 +12,7 @@ class Arma:
     
     @nome.setter
     def nome(self, nome):
-        self.nome = nome
+        self.__nome = nome
 
     @property
     def projetil(self):
@@ -20,12 +20,12 @@ class Arma:
     
     @projetil.setter
     def projetil(self, projetil):
-        self.projetil = projetil
+        self.__projetil = projetil
 
 #Demais métodos
 
     def atirar(self):
-        pass
+        self.__projetil.y -= self.__projetil.velocidade
 
     def trocar_projetil(self):
         pass

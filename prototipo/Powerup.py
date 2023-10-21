@@ -9,7 +9,7 @@ class PowerUp:
     
     @x.setter
     def x(self, x):
-        self.x = x
+        self.__x = x
 
     @property
     def y(self):
@@ -17,4 +17,4 @@ class PowerUp:
     
     @y.setter
     def y(self, y):
-        self.y = y
+        self.__y = y

@@ -100,4 +100,158 @@ class Jogo:
 
             if bg2_y >= y:
                 bg2_y = bg1_y - bg1.get_height()
+            
+            #teclas
+            tecla = pygame.key.get_pressed()
+            if tecla[pygame.K_LEFT] and self.__jogador.x > 1:
+                self.__jogador.mover_esquerda()
+                if not triggered:
+                    self.__jogador.arma.projetil.mover_esquerda(self.__jogador.velocidade)
+            if tecla[pygame.K_RIGHT] and self.__jogador.x < (x - 55):
+                self.__jogador.mover_direita()
+                if not triggered:
+                    self.__jogador.arma.projetil.mover_direita(self.__jogador.velocidade)
+            if tecla[pygame.K_UP] and self.__jogador.y > 1:
+                self.__jogador.mover_cima()
+                if not triggered:
+                    self.__jogador.arma.projetil.mover_cima(self.__jogador.velocidade)
+            if tecla[pygame.K_DOWN] and self.__jogador.y <(y -55):
+                self.__jogador.mover_baixo()
+                if not triggered:
+                    self.__jogador.arma.projetil.mover_baixo(self.__jogador.velocidade)
+            if tecla[pygame.K_SPACE]:
+                triggered = True
+                self.__jogador.arma.projetil.velocidade = 8
+
+            
+            #colisoes ou respawn
+            if contador != 0:
+                colisao = Colisao()
+
+                if colisao.check(player_rect, inimigo_rect):
+                    self.__jogador.vidas -= 1
+                    self.__jogador.pontos -= 1
+                    inimigo.vidas -= 1
+                
+                if colisao.check(projetil_rect, inimigo_rect):
+                    inimigo.vidas -=1 
+                    self.__jogador.pontos += 1
+
+            if inimigo.vidas <= 0:
+                inimigo.respawn(x)
+
+            if self.__jogador.vidas <= 0:
+                rodando = False
+            
+            #respawn
+            if inimigo.y >= y+20:
+                inimigo.respawn(x)
+
+            if self.__jogador.arma.projetil.y <= 0:
+                triggered = False
+                self.__jogador.arma.projetil.respawn(self.__jogador.x, self.__jogador.y)
+
+            #posição rect
+            player_rect.x = self.__jogador.x
+            player_rect.y = self.__jogador.y
+
+            projetil_rect.x = self.__jogador.arma.projetil.x
+            projetil_rect.y = self.__jogador.arma.projetil.y
+
+            inimigo_rect.x = inimigo.x
+            inimigo_rect.y = inimigo.y
+            
+            #movimentacao
+            inimigo.mover_baixo()
+
+            self.__jogador.arma.atirar()
+
+            #pontuação
+            score = font.render(f'Vidas: {self.__jogador.vidas} | Pontos: {self.__jogador.pontos}', True, (255,255,255))
+            screen.blit(score, (50, 50))
+
+            pygame.draw.rect(screen, (0, 0, 0), player_rect, 4)
+            pygame.draw.rect(screen, (0, 0, 0), projetil_rect, 4)
+            pygame.draw.rect(screen, (0, 0, 0), inimigo_rect, 4)
+
+            #criar imagens
+            screen.blit(inimigo.imagem, (inimigo.x, inimigo.y))
+            screen.blit(self.__jogador.arma.projetil.imagem, (self.__jogador.arma.projetil.x, self.__jogador.arma.projetil.y))
+            screen.blit(self.__jogador.imagem, (self.__jogador.x, self.__jogador.y))
+
+            pygame.display.update()
+            clock.tick(60)  # Limita o jogo a 60 FPS
+
+            contador += 1
+
+        pygame.quit()
+        
+
+#Getters e setters da classe
+
+    @property
+    def projeteis(self):
+        return self.__projeteis
+    
+    @projeteis.setter
+    def projeteis(self, projeteis):
+        self.__projeteis = projeteis
+
+    @property
+    def powerUps(self):
+        return self.__powerUps
+    
+    @powerUps.setter
+    def powerUps(self, powerUps):
+        self.__powerUps = powerUps
+
+    @property
+    def inimigos(self):
+        return self.__inimigos
+    
+    @inimigos.setter
+    def inimigos(self, inimigos):
+        self.__inimigos = inimigos
+
+    @property
+    def tempo_decorrido(self):
+        return self.__tempo_decorrido
+    
+    @tempo_decorrido.setter
+    def tempo_decorrido(self, tempo_decorrido):
+        self.__tempo_decorrido = tempo_decorrido
+
+    @property
+    def jogador(self):
+        return self.__jogador
+    
+    @jogador.setter
+    def jogador(self, jogador):
+        self.__jogador = jogador
+
+#Demais métodos
+    
+    def cadastrar_jogador(self):
+        pass
+    
+    def pausar(self):
+        pass
+
+    def derrota(self):
+        pass
+
+    def renderizar(self):
+        pass
+
+    def atualizar(self):
+        pass
+
+    def gerar_power_up(self):
+        pass
+
+    def coletar_power_up(self):
+        pass
+
+    def incrementar_pontos(self):
+        pass
 

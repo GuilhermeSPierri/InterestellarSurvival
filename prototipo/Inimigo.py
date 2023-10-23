@@ -8,6 +8,12 @@ class Inimigo(Personagem):
         self.__maximo_vidas = vidas
 
     def respawn(self, largura):
-        self.y = 0
-        self.x = random.randint(1, largura-40)
+        self.posicao_aleatoria(largura)
         self.vidas = self.__maximo_vidas
+
+    def posicao_aleatoria(self, largura, altura = None):
+        if altura == None:
+            self.y = -100
+        else:
+            self.y = random.randint(altura, 0)
+        self.x = random.randint(1, largura-40)

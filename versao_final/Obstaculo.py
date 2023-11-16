@@ -1,17 +1,18 @@
 from Personagem import Personagem
 from Arma import Arma
-import random
+import random, pygame
 
-class Obstaculo:
-    def __init__(self, nome: str, vidas: int, x: int, y: int, velocidade: int, imagem:str, sprites):
+class Obstaculo(pygame.sprite.Sprite):
+    def __init__(self, nome: str, vidas: int, x: int, y: int, velocidade: int, image:str, sprites):
         self.__nome = nome
         self.__vidas = vidas
         self.__velocidade = velocidade
-        self.__imagem = imagem
+        self.__image = image
         self.__sprites = sprites
         self.__x = x
         self.__y = y
         self.__maximo_vidas = vidas
+        self.__rect = None
     
     def mover_baixo(self):
         self.__y += self.__velocidade
@@ -28,6 +29,14 @@ class Obstaculo:
         self.x = random.randint(1, largura-40)
 
     @property
+    def rect(self):
+        return self.__rect
+    
+    @rect.setter
+    def rect(self, rect):
+        self.__rect = rect
+
+    @property
     def sprites(self):
         return self.__sprites
     
@@ -36,12 +45,12 @@ class Obstaculo:
         self.__sprites = sprites
     
     @property
-    def imagem(self):
-        return self.__imagem
+    def image(self):
+        return self.__image
     
-    @imagem.setter
-    def imagem(self, imagem):
-        self.__imagem = imagem
+    @image.setter
+    def image(self, image):
+        self.__image = image
     
     @property
     def velocidade(self):

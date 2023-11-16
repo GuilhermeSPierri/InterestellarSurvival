@@ -22,10 +22,13 @@ class Arma:
     def projetil(self, projetil):
         self.__projetil = projetil
 
-#Demais métodos
 
-    def atirar(self):
+    def atirar(self, x: int, y: int, velocidade: int, dano: int, imagem: str, sprites):
+        return Projetil(x, y, velocidade, dano, imagem, sprites)
+
+
+    """def atirar(self):
         self.__projetil.y -= self.__projetil.velocidade
-
+"""
     def trocar_projetil(self):
         pass

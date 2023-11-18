@@ -24,6 +24,7 @@ class Arma:
 
 
     def atirar(self, x: int, y: int, velocidade: int, dano: int, imagem: str, sprites):
+        print("atirei")
         return Projetil(x, y, velocidade, dano, imagem, sprites)
 
 

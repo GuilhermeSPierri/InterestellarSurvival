@@ -31,7 +31,7 @@ class Jogo:
                     None,
                     [
                         Inimigo("Inimigo base", 1, 640, -100, None, 4, 'versao_final/assets/imgs/inimigobase.png', None),
-                        Inimigo("Inimigo base", 1, 640, -100, None, 7, 'versao_final/assets/imgs/inimigobase.png', None),
+                        Inimigo("Inimigo base", 1, 640, -100, None, 7, 'versao_final/assets/imgs/Ship4.png', None),
                         Inimigo("Inimigo base", 1, 640, -100, None, 5, 'versao_final/assets/imgs/inimigobase.png', None),
                         Inimigo("Inimigo base", 1, 640, -100, None, 6, 'versao_final/assets/imgs/inimigobase.png', None),
                         Inimigo("Inimigo base", 1, 640, -100, None, 4, 'versao_final/assets/imgs/inimigobase.png', None)

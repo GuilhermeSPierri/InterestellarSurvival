@@ -202,12 +202,12 @@ class Fase:
 
                     #respawn inimigo morreu
                     if self.__inimigos[i].vidas <= 0:
-                        self.__inimigos[i].respawn(x)
+                        self.__inimigos[i].respawn(x, -1000)
                         self.__jogador.pontos += 1
 
                     #respawn inimigo saiu da tela
                     if self.__inimigos[i].y >= y+20:
-                        self.__inimigos[i].respawn(x)
+                        self.__inimigos[i].respawn(x, -1000)
                     
                     #posição do rect do inimigo
                     self.__inimigos[i].rect.x = self.__inimigos[i].x
@@ -285,6 +285,8 @@ class Fase:
 
             #caso o jogador atire, esse método vai fazer com que o tiro vá para frente
             #self.__jogador.arma.atirar()
+
+            #self.aumentar_velocidade()
 
             #sprite basico
             if contPrite >= len(self.__jogador.sprites):
@@ -370,6 +372,14 @@ class Fase:
         self.__jogador = jogador
 
 #Demais métodos
+
+    def aumentar_velocidade(self):
+        cont = 0
+        
+        if pygame.time.get_ticks() > 7000 and cont == 0:
+            print(self.__jogador.velocidade)
+            self.__jogador.velocidade += 5
+            cont +=1
     
     def cadastrar_jogador(self):
         pass

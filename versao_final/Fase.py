@@ -6,7 +6,8 @@ from Personagem import Personagem
 from Jogador import Jogador
 from Inimigo import Inimigo
 from Colisao import Colisao
-import pygame
+from Explosao import Explosao
+import pygame, random
 
 
 class Fase:
@@ -44,6 +45,26 @@ class Fase:
         # Posições iniciais dos planos de fundo
         bg1_y = 0
         bg2_y = -bg1.get_height()
+
+        explosao1 = [
+            'versao_final/assets/imgs/Explosion3_1.png','versao_final/assets/imgs/Explosion3_2.png',
+            'versao_final/assets/imgs/Explosion3_3.png','versao_final/assets/imgs/Explosion3_4.png',
+            'versao_final/assets/imgs/Explosion3_5.png','versao_final/assets/imgs/Explosion3_6.png',
+            'versao_final/assets/imgs/Explosion3_7.png','versao_final/assets/imgs/Explosion3_8.png',
+            'versao_final/assets/imgs/Explosion3_9.png','versao_final/assets/imgs/Explosion3_10.png','versao_final/assets/imgs/Explosion3_11.png',
+        ]
+
+        explosao2 = [
+            'versao_final/assets/imgs/tile000.png','versao_final/assets/imgs/tile001.png',
+            'versao_final/assets/imgs/tile002.png','versao_final/assets/imgs/tile003.png',
+            'versao_final/assets/imgs/tile004.png','versao_final/assets/imgs/tile005.png',
+            'versao_final/assets/imgs/tile006.png','versao_final/assets/imgs/tile007.png',
+            'versao_final/assets/imgs/tile008.png','versao_final/assets/imgs/tile009.png',
+            'versao_final/assets/imgs/tile010.png','versao_final/assets/imgs/tile011.png',
+            'versao_final/assets/imgs/tile012.png','versao_final/assets/imgs/tile013.png',
+            'versao_final/assets/imgs/tile014.png','versao_final/assets/imgs/tile015.png',
+            'versao_final/assets/imgs/tile016.png'
+        ]
 
         #carrega e deixa as imagens dos inimigos numa determinada escala
         for inimigo in self.__inimigos:
@@ -115,13 +136,16 @@ class Fase:
         player_group = pygame.sprite.Group()
         player_group.add(self.__jogador)
 
+        #sprites de explosão
+        explosion_group = pygame.sprite.Group()
+
         #adiciona projetil aos sprites
-        projetil_group = pygame.sprite.Group()
+        self.__jogador.arma.disparos = pygame.sprite.Group()
 
         contPrite = 0
 
         tempo_ultimo_tiro = pygame.time.get_ticks()
-        delay_entre_tiros = 500  # Defina o atraso desejado em milissegundos (por exemplo, 500 ms).
+        delay_entre_tiros = 200  # Defina o atraso desejado em milissegundos (por exemplo, 500 ms).
 
         #laço principal
         while rodando:
@@ -167,7 +191,7 @@ class Fase:
                     self.__jogador.arma.projetil.mover_baixo(self.__jogador.velocidade)"""
             tempo_atual = pygame.time.get_ticks()
             if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > delay_entre_tiros:
-                projetil_group.add(self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y ,5, 1, 'versao_final/assets/imgs/shot1_asset.png', []))
+                self.__jogador.arma.disparos.add(self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y ,5, 1, 'versao_final/assets/imgs/shot1_asset.png', []))
                 tempo_ultimo_tiro = tempo_atual  # Atualiza o tempo do último tiro
                 #jogador atirou seta triggered em true e a velocidade do projétil
                 #triggered = True 
@@ -180,6 +204,11 @@ class Fase:
 
                 #laço dos inimigos
                 for i in range(len(self.__inimigos)):
+                    if random.randrange(0, 100) == 1 and self.__inimigos[i].y>0:
+                        self.__inimigos[i].arma.disparos.add(self.__inimigos[i].arma.atirar(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2,7, 1, 'versao_final/assets/imgs/shot4_5.png', []))
+                    self.__inimigos[i].arma.disparos.draw(screen)
+                    self.__inimigos[i].arma.disparos.update(y)
+
 
                     #checa se o inimigo da posição [i] da lista colidiu com o jogador
                     if colisao.check(self.__jogador.rect, self.__inimigos[i].rect):
@@ -187,14 +216,20 @@ class Fase:
                         self.__jogador.diminuir_pontos(1)
                         self.__inimigos[i].vidas -= 1
                     
-                    #checa se o inimigo da posição [i] da lista foi acertado com o projétil
-                    """if colisao.check(projetil_group, self.__inimigos[i].rect):
-                        self.__inimigos[i].vidas -=1 
-                        self.__jogador.pontos += 1
-                        triggered = False"""
+                    # remove o projetil que o inimigo lançou quando acerta o jogador
+                    for projetil in self.__inimigos[i].arma.disparos:
+                        if colisao.check(self.jogador.rect, projetil.rect):
+                            self.__jogador.vidas -= 1
+                            projetil.kill() 
+                    
+                    # remove o projetil que o inimigo lançou quando sai da tela
+                    for projetil in self.__inimigos[i].arma.disparos:
+                        if projetil.rect.y > y:
+                            projetil.kill() 
+                    
+
                     # Verifica colisões do projétil com inimigos
-                    for projetil in projetil_group:
-                        #for inimigo in self.__inimigos:
+                    for projetil in self.__jogador.arma.disparos:
                         if colisao.check(self.__inimigos[i].rect, projetil.rect):
                             self.__inimigos[i].vidas -= 1
                             projetil.kill()  # Remove o projétil após acertar um inimigo
@@ -202,6 +237,8 @@ class Fase:
 
                     #respawn inimigo morreu
                     if self.__inimigos[i].vidas <= 0:
+                        explosion = Explosao(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2, explosao1)
+                        explosion_group.add(explosion)
                         self.__inimigos[i].respawn(x, -1000)
                         self.__jogador.pontos += 1
 
@@ -232,19 +269,15 @@ class Fase:
                         #self.__obstaculos[i].vidas -= 1
                     
                     #checa se o obstaculo da posição [i] da lista foi acertado com o projétil
-                    """if colisao.check(self.__jogador.arma.projetil.rect, self.__obstaculos[i].rect):
-                        #self.__obstaculos[i].vidas -=1 
-                        #self.__jogador.pontos += 1
-                        triggered = False
-                        self.__jogador.arma.projetil.respawn(self.__jogador.x, (round(vertical/12) -4), self.__jogador.y, round(horizontal/4))"""
-                    for projetil in projetil_group:
-                        #for inimigo in self.__inimigos:
+                    for projetil in self.__jogador.arma.disparos:
                         if colisao.check(self.__obstaculos[i].rect, projetil.rect):
                             self.__obstaculos[i].vidas -= 1
                             projetil.kill()  # Remove o projétil após acertar um inimigo
 
                     #respawn obstaculo destruido
                     if self.__obstaculos[i].vidas <= 0:
+                        explosion = Explosao(self.__obstaculos[i].x + (self.__obstaculos[i].image.get_width())/2, self.__obstaculos[i].y  + (self.__obstaculos[i].image.get_height())/2, explosao2)
+                        explosion_group.add(explosion)
                         self.__obstaculos[i].respawn(x, -1000)
                         self.__jogador.pontos += 1
 
@@ -260,10 +293,15 @@ class Fase:
                     self.__obstaculos[i].mover_baixo()
 
                     #desenha o rect do obstaculo [i]
-                    pygame.draw.rect(screen, (0, 0, 0), self.__obstaculos[i].rect, 4)
+                    #pygame.draw.rect(screen, (0, 0, 0), self.__obstaculos[i].rect, 4)
 
                     #cria a image do obstaculo [i]
                     screen.blit(self.__obstaculos[i].image, (self.__obstaculos[i].x, self.__obstaculos[i].y))
+            
+            #verifica se o projétil do jogador saiu da tela 
+            for projetil in self.__jogador.arma.disparos:
+                if projetil.rect.y < 0:
+                    projetil.kill()  # Remove o projétil após acertar um inimigo
 
             #verifica se as vidas do jogador acabaram
             #caso tenha acabado, encerra o laço principal
@@ -305,9 +343,13 @@ class Fase:
             #desenha o rect do projetil e jogador
             #pygame.draw.rect(screen, (0, 0, 0), self.__jogador.rect, 4)
             #pygame.draw.rect(screen, (0, 0, 0), self.__jogador.arma.projetil.rect, 4)
-            projetil_group.draw(screen)
+            self.__jogador.arma.disparos.draw(screen)
             player_group.draw(screen)
-            projetil_group.update()
+            self.__jogador.arma.disparos.update()
+            
+            #desenhar e atualizar a explosão
+            explosion_group.draw(screen)
+            explosion_group.update()
 
             #criar imagens do projetil e jogador
             #screen.blit(self.__jogador.arma.projetil.image, (self.__jogador.arma.projetil.x, self.__jogador.arma.projetil.y))

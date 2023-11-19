@@ -2,6 +2,7 @@ from Fase import Fase
 from Obstaculo import Obstaculo
 from Powerup import PowerUp
 from Arma import Arma
+from ArmaInimigo import ArmaInimigo
 from Projetil import Projetil
 from Personagem import Personagem
 from Jogador import Jogador
@@ -30,11 +31,29 @@ class Jogo:
                     None,
                     None,
                     [
-                        Inimigo("Inimigo base", 1, 640, -100, None, 4, 'versao_final/assets/imgs/inimigobase.png', None),
-                        Inimigo("Inimigo base", 1, 640, -100, None, 7, 'versao_final/assets/imgs/Ship4.png', None),
-                        Inimigo("Inimigo base", 1, 640, -100, None, 5, 'versao_final/assets/imgs/inimigobase.png', None),
-                        Inimigo("Inimigo base", 1, 640, -100, None, 6, 'versao_final/assets/imgs/inimigobase.png', None),
-                        Inimigo("Inimigo base", 1, 640, -100, None, 4, 'versao_final/assets/imgs/inimigobase.png', None)
+                        Inimigo("Inimigo base", 1, 640, -100, 
+                                ArmaInimigo("Arma base",
+                                                Projetil(0, 0, 12, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                                ), 4, 'versao_final/assets/imgs/inimigobase.png', None),
+                        Inimigo("Inimigo base", 1, 640, -100,
+                                ArmaInimigo("Arma base",
+                                                Projetil(0, 0, 12, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                                ), 4, 'versao_final/assets/imgs/Ship4.png', None),
+                        Inimigo("Inimigo base", 1, 640, -100, 
+                                ArmaInimigo("Arma base",
+                                                Projetil(0, 0, 12, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                                ), 4, 'versao_final/assets/imgs/inimigobase.png', None),
+                        Inimigo("Inimigo base", 1, 640, -100, 
+                                ArmaInimigo("Arma base",
+                                                Projetil(0, 0, 12, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                                ), 4, 'versao_final/assets/imgs/inimigobase.png', None),
+                        Inimigo("Inimigo base", 1, 640, -100, 
+                                ArmaInimigo("Arma base",
+                                                Projetil(0, 0, 12, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                                ), 4, 'versao_final/assets/imgs/inimigobase.png', None),
+                        #Inimigo("Inimigo base", 1, 640, -100, None, 5, 'versao_final/assets/imgs/inimigobase.png', None),
+                        #Inimigo("Inimigo base", 1, 640, -100, None, 6, 'versao_final/assets/imgs/inimigobase.png', None),
+                        #Inimigo("Inimigo base", 1, 640, -100, None, 4, 'versao_final/assets/imgs/inimigobase.png', None)
                     ],
                     None,
                     Jogador("Player 1", 3, 640, 600,

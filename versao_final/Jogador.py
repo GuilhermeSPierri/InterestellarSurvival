@@ -1,9 +1,10 @@
 from Personagem import Personagem
 from Arma import Arma
+import pygame
 
 class Jogador(Personagem):
-    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, pontos: int, imagem:str, sprites):
-        super().__init__(nome, vidas, x, y, arma, velocidade, imagem, sprites)
+    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, pontos: int, image:str, sprites):
+        super().__init__(nome, vidas, x, y, arma, velocidade, image, sprites)
         self.__pontos= pontos
 
     @property

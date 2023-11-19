@@ -1,10 +1,22 @@
-class Projetil:
-    def __init__(self, x: int, y: int, velocidade: int, dano: int, imagem: str):
+import pygame
+
+class Projetil(pygame.sprite.Sprite):
+    def __init__(self, x: int, y: int, velocidade: int, dano: int, imagem: str, sprites):
+        super().__init__()
         self.__x = x
         self.__y = y
         self.__velocidade = velocidade
         self.__dano = dano
-        self.__imagem = imagem
+        self.__image = pygame.image.load(imagem)
+        self.__image = pygame.transform.rotate(self.__image, 90)
+        self.__rect = self.__image.get_rect(center = (x, y))
+
+    def update(self):
+        # Movimentar o projétil
+        if self.__y <= 0:
+            self.kill()
+        else:
+            self.__rect.y -= self.__velocidade
 
     def mover_esquerda(self, velocidade_desejada=None):
         if velocidade_desejada == None:
@@ -21,8 +33,10 @@ class Projetil:
     def mover_cima(self, velocidade_desejada=None):
         if velocidade_desejada == None:
             self.__y -= self.__velocidade
+            self.__rect.y -= self.__velocidade
         else:
             self.__y -= velocidade_desejada
+            self.__rect.y -= velocidade_desejada
     
     def mover_baixo(self, velocidade_desejada=None):
         if velocidade_desejada == None:
@@ -36,6 +50,14 @@ class Projetil:
         self.__velocidade = 0
 
     @property
+    def rect(self):
+        return self.__rect
+    
+    @rect.setter
+    def rect(self, rect):
+        self.__rect = rect
+    
+    @property
     def x(self):
         return self.__x
     
@@ -44,12 +66,12 @@ class Projetil:
         self.__x = x
 
     @property
-    def imagem(self):
-        return self.__imagem
+    def image(self):
+        return self.__image
     
-    @imagem.setter
-    def imagem(self, imagem):
-        self.__imagem = imagem
+    @image.setter
+    def image(self, image):
+        self.__image = image
 
     @property
     def y(self):

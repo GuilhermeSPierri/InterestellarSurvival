@@ -1,16 +1,19 @@
 from abc import ABC, abstractmethod
 from Arma import Arma
+import pygame
 
-class Personagem(ABC):
-    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, imagem: str, sprites):
+class Personagem(pygame.sprite.Sprite):
+    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, image: str, sprites):
+        super().__init__()
         self.__nome = nome
         self.__vidas = vidas
         self.__x = x
         self.__y = y
         self.__arma = arma
         self.__velocidade = velocidade
-        self.__imagem = imagem
+        self.__image = image
         self.__sprites = sprites
+        self.__rect = None
 
     def mover_esquerda(self):
         self.__x -= self.__velocidade  
@@ -26,12 +29,20 @@ class Personagem(ABC):
 
 #Getters e setters da classe
     @property
-    def imagem(self):
-        return self.__imagem
+    def rect(self):
+        return self.__rect
     
-    @imagem.setter
-    def imagem(self, imagem):
-        self.__imagem = imagem
+    @rect.setter
+    def rect(self, rect):
+        self.__rect = rect
+    
+    @property
+    def image(self):
+        return self.__image
+    
+    @image.setter
+    def image(self, image):
+        self.__image = image
 
     @property
     def sprites(self):

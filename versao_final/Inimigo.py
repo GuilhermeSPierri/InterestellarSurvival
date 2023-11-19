@@ -1,10 +1,10 @@
 from Personagem import Personagem
 from Arma import Arma
-import random
+import random, pygame
 
 class Inimigo(Personagem):
-    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, imagem:str, sprites):
-        super().__init__(nome, vidas, x, y, arma, velocidade, imagem, sprites)
+    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, image:str, sprites):
+        super().__init__(nome, vidas, x, y, arma, velocidade, image, sprites)
         self.__maximo_vidas = vidas
 
     def respawn(self, largura, altura=None):

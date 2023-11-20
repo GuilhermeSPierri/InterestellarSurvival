@@ -7,6 +7,8 @@ from Jogador import Jogador
 from Inimigo import Inimigo
 from Colisao import Colisao
 from Explosao import Explosao
+from InimigoBaseFactory import InimigoBaseFactory
+from ObstaculoFactory import ObstaculoFactory
 import pygame, random
 
 
@@ -18,6 +20,9 @@ class Fase:
         self.__inimigos = inimigos
         self.__tempo_decorrido = tempo_decorrido
         self.__jogador = jogador
+        self.__inimigo_base_factory = InimigoBaseFactory()
+        self.__obstaculo_factory = ObstaculoFactory()
+        self.__nivel = 0
 
     def iniciar(self):
         # TAMANHO DA TELA
@@ -66,65 +71,19 @@ class Fase:
             'versao_final/assets/imgs/tile016.png'
         ]
 
-        #carrega e deixa as imagens dos inimigos numa determinada escala
-        for inimigo in self.__inimigos:
-            inimigo.image = pygame.image.load(inimigo.image).convert_alpha()
-            inimigo.image = pygame.transform.scale(inimigo.image, (70, 70))
-        
-        #carrega e deixa as imagens dos obstaculos numa determinada escala
-        for obstaculo in self.__obstaculos:
-            obstaculo.image = pygame.image.load(obstaculo.image).convert_alpha()
-            obstaculo.image = pygame.transform.scale(obstaculo.image, (70, 70))
-
         #carrega e deixa as imagens do jogador e rotaciona numa determinada escala
         self.__jogador.image = pygame.image.load(self.__jogador.image).convert_alpha()
         self.__jogador.image = pygame.transform.scale(self.__jogador.image, (80, 40))
         self.__jogador.image = pygame.transform.rotate(self.__jogador.image, 90)
 
-        #deixa as imagens do jogador e rotaciona numa determinada escala
-        """Para as versões iniciais do jogo, como a de agora, vamos utilizar somente um projétil,
-        que ficará escondido atrás da nave do jogador. Sendo assim só é possível atirar novamente
-        quando o projétil anterior tiver já saído de tela ou atingido um inimigo"""
-        """self.__jogador.arma.projetil.image = pygame.image.load(self.__jogador.arma.projetil.image).convert_alpha()
-        self.__jogador.arma.projetil.image = pygame.transform.scale(self.__jogador.arma.projetil.image, (40, 40))
-        self.__jogador.arma.projetil.image = pygame.transform.rotate(self.__jogador.arma.projetil.image, 90)"""
-
-
-        #coloca os inimigos inicialmente em posições aleatórias
-        for inimigo in self.__inimigos:
-            inimigo.posicao_aleatoria(x, -1000)
-        
-        #coloca os obstáculos inicialmente em posições aleatórias
-        for obstaculo in self.__obstaculos:
-            obstaculo.posicao_aleatoria(x, -1000)
-
         #coloca a nave do jogador na posição inicial
         self.__jogador.x = 640
         self.__jogador.y = 600
 
-        #coloca o projétil escondido atrás da nave do jogador
-        #self.__jogador.arma.projetil.velocidade = 0
         horizontal, vertical = self.__jogador.image.get_size()
-        """print(horizontal, vertical)
-        self.__jogador.arma.projetil.x = self.__jogador.x + round(vertical/12) -4
-        self.__jogador.arma.projetil.y = self.__jogador.y + round(horizontal/4)"""
 
         #pega o rect da image jogador (usado para verificar colisões)
         self.__jogador.rect = self.__jogador.image.get_rect()
-        
-        #pega o rect da image  de todos inimigos
-        for inimigo in self.__inimigos:
-            inimigo.rect = inimigo.image.get_rect()
-        
-        #pega o rect da image  de todos obstaculos
-        for obstaculo in self.__obstaculos:
-            obstaculo.rect = obstaculo.image.get_rect()
-        
-        #pega o rect do projétil
-        #self.__jogador.arma.projetil.rect = self.__jogador.arma.projetil.image.get_rect()
-
-        #variável utilizada para saber se o jogador está atirando
-        #triggered = False
 
         #variável que controla o laço do jogo
         rodando = True
@@ -142,13 +101,12 @@ class Fase:
         #adiciona projetil aos sprites
         self.__jogador.arma.disparos = pygame.sprite.Group()
 
-        contPrite = 0
-
         tempo_ultimo_tiro = pygame.time.get_ticks()
-        delay_entre_tiros = 200  # Defina o atraso desejado em milissegundos (por exemplo, 500 ms).
+        delay_entre_tiros = 300  # Defina o atraso desejado em milissegundos (por exemplo, 500 ms).
 
         #laço principal
         while rodando:
+
             #laço de eventos
             for event in pygame.event.get():
                 #sair do jogo
@@ -169,6 +127,8 @@ class Fase:
 
             if bg2_y >= y:
                 bg2_y = bg1_y - bg1.get_height()
+            
+            self.controle_dificuldade(x, -1000, pygame.time.get_ticks())
             
             #teclas pressionadas 
             #caso o jogador não esteja atirando, o projétil se move junto com a nave
@@ -193,9 +153,6 @@ class Fase:
             if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > delay_entre_tiros:
                 self.__jogador.arma.disparos.add(self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y ,5, 1, 'versao_final/assets/imgs/shot1_asset.png', []))
                 tempo_ultimo_tiro = tempo_atual  # Atualiza o tempo do último tiro
-                #jogador atirou seta triggered em true e a velocidade do projétil
-                #triggered = True 
-                #self.__jogador.arma.projetil.velocidade = 8
 
             #colisoes ou respawn
             if contador != 0: #verifica se não está no primeiro laço
@@ -209,12 +166,11 @@ class Fase:
                     self.__inimigos[i].arma.disparos.draw(screen)
                     self.__inimigos[i].arma.disparos.update(y)
 
-
                     #checa se o inimigo da posição [i] da lista colidiu com o jogador
                     if colisao.check(self.__jogador.rect, self.__inimigos[i].rect):
                         self.__jogador.vidas -= 1
                         self.__jogador.diminuir_pontos(1)
-                        self.__inimigos[i].vidas -= 1
+                        self.__inimigos[i].vidas = 0
                     
                     # remove o projetil que o inimigo lançou quando acerta o jogador
                     for projetil in self.__inimigos[i].arma.disparos:
@@ -226,14 +182,12 @@ class Fase:
                     for projetil in self.__inimigos[i].arma.disparos:
                         if projetil.rect.y > y:
                             projetil.kill() 
-                    
 
                     # Verifica colisões do projétil com inimigos
                     for projetil in self.__jogador.arma.disparos:
                         if colisao.check(self.__inimigos[i].rect, projetil.rect):
                             self.__inimigos[i].vidas -= 1
                             projetil.kill()  # Remove o projétil após acertar um inimigo
-                        
 
                     #respawn inimigo morreu
                     if self.__inimigos[i].vidas <= 0:
@@ -253,20 +207,17 @@ class Fase:
                     #movimentacao do inimigo, somente para baixo
                     self.__inimigos[i].mover_baixo()
 
-                    #desenha o rect do inimigo [i]
-                    pygame.draw.rect(screen, (0, 0, 0), self.__inimigos[i].rect, 4)
-
                     #cria a image do inimigo [i]
                     screen.blit(self.__inimigos[i].image, (self.__inimigos[i].x, self.__inimigos[i].y))
-            
+                
                 #laço dos obstaculos
                 for i in range(len(self.__obstaculos)):
 
                     #checa se o obstaculo da posição [i] da lista colidiu com o jogador
                     if colisao.check(self.__jogador.rect, self.__obstaculos[i].rect):
-                        self.__jogador.vidas = 0
+                        self.__jogador.vidas -= 1
+                        self.__obstaculos[i].vidas = 0
                         self.__jogador.diminuir_pontos(1)
-                        #self.__obstaculos[i].vidas -= 1
                     
                     #checa se o obstaculo da posição [i] da lista foi acertado com o projétil
                     for projetil in self.__jogador.arma.disparos:
@@ -292,9 +243,6 @@ class Fase:
                     #movimentacao do obstaculo, somente para baixo
                     self.__obstaculos[i].mover_baixo()
 
-                    #desenha o rect do obstaculo [i]
-                    #pygame.draw.rect(screen, (0, 0, 0), self.__obstaculos[i].rect, 4)
-
                     #cria a image do obstaculo [i]
                     screen.blit(self.__obstaculos[i].image, (self.__obstaculos[i].x, self.__obstaculos[i].y))
             
@@ -308,41 +256,17 @@ class Fase:
             if self.__jogador.vidas <= 0:
                 rodando = False
 
-            #respawn projetil quando sai da tela
-            """if self.__jogador.arma.projetil.y <= 0:
-                triggered = False
-                self.__jogador.arma.projetil.respawn(self.__jogador.x, (round(vertical/12) -4), self.__jogador.y, round(horizontal/4))"""
-
             #posição do rect do jogador
             self.__jogador.rect.x = self.__jogador.x
             self.__jogador.rect.y = self.__jogador.y
 
-            """#posição do rect do projétil
-            self.__jogador.arma.projetil.rect.x = self.__jogador.arma.projetil.x
-            self.__jogador.arma.projetil.rect.y = self.__jogador.arma.projetil.y"""
-
-            #caso o jogador atire, esse método vai fazer com que o tiro vá para frente
-            #self.__jogador.arma.atirar()
-
-            #self.aumentar_velocidade()
-
-            #sprite basico
-            if contPrite >= len(self.__jogador.sprites):
-                contPrite = 0
-            else:
-                contPrite += 1
-            
-            self.__jogador.image = pygame.image.load(self.__jogador.sprites[contPrite-1]).convert_alpha()
-            self.__jogador.image = pygame.transform.scale(self.__jogador.image, (80, 40))
-            self.__jogador.image = pygame.transform.rotate(self.__jogador.image, 90)
+            self.__jogador.update()
 
             #pontuação
             score = font.render(f'Vidas: {self.__jogador.vidas} | Pontos: {self.__jogador.pontos}', True, (255,255,255))
             screen.blit(score, (50, 50))
 
             #desenha o rect do projetil e jogador
-            #pygame.draw.rect(screen, (0, 0, 0), self.__jogador.rect, 4)
-            #pygame.draw.rect(screen, (0, 0, 0), self.__jogador.arma.projetil.rect, 4)
             self.__jogador.arma.disparos.draw(screen)
             player_group.draw(screen)
             self.__jogador.arma.disparos.update()
@@ -414,14 +338,98 @@ class Fase:
         self.__jogador = jogador
 
 #Demais métodos
+    
+    def controle_dificuldade(self, x, y, tempo):
 
-    def aumentar_velocidade(self):
-        cont = 0
+        tamanho_onda_obstaculo = 0
+        tamanho_onda_inimigo = 0
+
+        vida_max_obstaculo = 0
+        vida_min_obstaculo = 0
+        velocidade_maxima_obstaculo = 0
+        velocidade_minima_obstaculo = 0
+        escala_x_obstaculo = 70
+        escala_y_obstaculo = 70
+
+        velocidade_minima_inimigo = 0
+        velocidade_maxima_inimigo = 0
+        escala_x_inimigo = 70
+        escala_y_inimigo = 70
+
+        if self.__nivel==0:
+
+            self.__nivel += 1
+
+            tamanho_onda_obstaculo = 3
+            vida_min_obstaculo = 3
+            vida_max_obstaculo = 5
+            velocidade_minima_obstaculo = 3
+            velocidade_maxima_obstaculo = 4
+
+            tamanho_onda_inimigo = 3
+            velocidade_minima_inimigo = 3
+            velocidade_maxima_inimigo = 4
+            
         
-        if pygame.time.get_ticks() > 7000 and cont == 0:
-            print(self.__jogador.velocidade)
-            self.__jogador.velocidade += 5
-            cont +=1
+        elif self.__nivel == 1 and tempo >= 10000:
+            
+            self.__nivel += 1
+
+            tamanho_onda_obstaculo = 1
+            vida_min_obstaculo = 3
+            vida_max_obstaculo = 5
+            velocidade_minima_obstaculo = 3
+            velocidade_maxima_obstaculo = 4
+
+            tamanho_onda_inimigo = 3
+            velocidade_minima_inimigo = 3
+            velocidade_maxima_inimigo = 5
+        
+        elif self.__nivel == 2 and tempo >= 25000:
+
+            self.__nivel += 1
+
+            tamanho_onda_obstaculo = 1
+            vida_min_obstaculo = 3
+            vida_max_obstaculo = 4
+            velocidade_minima_obstaculo = 4
+            velocidade_maxima_obstaculo = 5
+
+            tamanho_onda_inimigo = 3
+            velocidade_minima_inimigo = 4
+            velocidade_maxima_inimigo = 6
+        
+        elif self.__nivel == 3 and tempo >= 35000:
+            self.__nivel += 1
+
+            tamanho_onda_obstaculo = 1
+            vida_min_obstaculo = 7
+            vida_max_obstaculo = 8
+            velocidade_minima_obstaculo = 4
+            velocidade_maxima_obstaculo = 5
+            escala_x_obstaculo = 100
+            escala_y_obstaculo = 100
+            
+            tamanho_onda_inimigo = 3
+            velocidade_minima_inimigo = 5
+            velocidade_maxima_inimigo = 6
+            
+        for i in range(tamanho_onda_obstaculo):
+            obstaculo = self.__obstaculo_factory.criar_objeto(0, -2000, vida_min_obstaculo, vida_max_obstaculo, velocidade_minima_obstaculo, velocidade_maxima_obstaculo)
+            obstaculo.image = pygame.image.load(obstaculo.image).convert_alpha()
+            obstaculo.image = pygame.transform.scale(obstaculo.image, (escala_x_obstaculo, escala_y_obstaculo))
+            obstaculo.posicao_aleatoria(x, -1000)
+            obstaculo.rect = obstaculo.image.get_rect()
+            self.__obstaculos.append(obstaculo)
+        
+        for i in range(tamanho_onda_inimigo):
+            inimigo = self.__inimigo_base_factory.criar_objeto(0, -1000, 1, velocidade_minima_inimigo, velocidade_maxima_inimigo)
+            inimigo.image = pygame.image.load(inimigo.image).convert_alpha()
+            inimigo.image = pygame.transform.scale(inimigo.image, (escala_x_inimigo, escala_y_inimigo))
+            inimigo.posicao_aleatoria(x, -1000)
+            inimigo.rect = inimigo.image.get_rect()
+            self.__inimigos.append(inimigo)
+            
     
     def cadastrar_jogador(self):
         pass

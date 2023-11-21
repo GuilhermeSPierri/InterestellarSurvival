@@ -103,6 +103,14 @@ class Fase:
         player_group = pygame.sprite.Group()
         player_group.add(self.__jogador)
 
+        #adiciona inimigos aos sprites
+        inimigos_group = pygame.sprite.Group()
+        inimigos_group.add(self.__inimigos)
+
+        #adiciona obstaculos aos sprites
+        obstaculos_group = pygame.sprite.Group()
+        obstaculos_group.add(self.__obstaculos)
+
         #sprites de explosão
         explosion_group = pygame.sprite.Group()
 

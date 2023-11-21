@@ -39,7 +39,7 @@ class Fase:
         clock = pygame.time.Clock()
 
         #fonte do jogo
-        font = pygame.font.SysFont('versao_final/assets/fonts/PixelGameFont.ttf', 50)
+        font = pygame.font.Font('versao_final/assets/fonts/PixelGameFont.ttf', 30)
 
         # Carrega os planos de fundo
         bg1 = pygame.image.load('versao_final/assets/imgs/bg.png').convert_alpha()
@@ -70,6 +70,14 @@ class Fase:
             'versao_final/assets/imgs/tile014.png','versao_final/assets/imgs/tile015.png',
             'versao_final/assets/imgs/tile016.png'
         ]
+        
+        #carrega as imagens da vida
+        coracao_cheio = pygame.image.load('versao_final/assets/imgs/coracao_cheio.png').convert_alpha()
+        coracao_cheio = pygame.transform.scale(coracao_cheio, (60, 60))
+
+        #carrega a imagem do placar
+        barra_score = pygame.image.load('versao_final/assets/imgs/barra_score.png').convert_alpha()
+        barra_score = pygame.transform.scale(barra_score, (150, 50))
 
         #carrega e deixa as imagens do jogador e rotaciona numa determinada escala
         self.__jogador.image = pygame.image.load(self.__jogador.image).convert_alpha()
@@ -251,11 +259,6 @@ class Fase:
                 if projetil.rect.y < 0:
                     projetil.kill()  # Remove o projétil após acertar um inimigo
 
-            #verifica se as vidas do jogador acabaram
-            #caso tenha acabado, encerra o laço principal
-            if self.__jogador.vidas <= 0:
-                rodando = False
-
             #posição do rect do jogador
             self.__jogador.rect.x = self.__jogador.x
             self.__jogador.rect.y = self.__jogador.y
@@ -263,8 +266,17 @@ class Fase:
             self.__jogador.update()
 
             #pontuação
-            score = font.render(f'Vidas: {self.__jogador.vidas} | Pontos: {self.__jogador.pontos}', True, (255,255,255))
-            screen.blit(score, (50, 50))
+            texto = font.render(f'PONTOS', True, (255,255,255))
+            score = font.render(f'{self.__jogador.pontos}', True, (255,255,255))
+            screen.blit(barra_score, (900, 50))
+            screen.blit(texto, (917, 65))
+            screen.blit(score, (910, 110))
+
+            #mostra a quantidade de vidas
+            for i in range(self.__jogador.vidas):
+                coracao_x = 40 + i * 60
+                coracao_y = 50
+                screen.blit(coracao_cheio, (coracao_x, coracao_y))
 
             #desenha o rect do projetil e jogador
             self.__jogador.arma.disparos.draw(screen)
@@ -278,6 +290,20 @@ class Fase:
             #criar imagens do projetil e jogador
             #screen.blit(self.__jogador.arma.projetil.image, (self.__jogador.arma.projetil.x, self.__jogador.arma.projetil.y))
             screen.blit(self.__jogador.image, (self.__jogador.x, self.__jogador.y))
+
+            #verifica se as vidas do jogador acabaram
+            #caso tenha acabado, encerra o laço principal
+            if self.__jogador.vidas <= 0:
+                explosion = Explosao(self.__jogador.x + (self.__jogador.image.get_width())/2, self.__jogador.y  + (self.__inimigos[i].image.get_height())/2, explosao1)
+                explosion_group.add(explosion)
+                for i in range(40):  # Adicionei um loop para garantir que a explosão seja exibida por alguns frames
+                    # Atualiza a explosão
+                    explosion_group.draw(screen)
+                    explosion_group.update()
+                    pygame.display.update()
+                    pygame.time.delay(25)
+                pygame.time.delay(100)
+                rodando = False
 
             pygame.display.update()
             pygame.display.flip()

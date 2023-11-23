@@ -186,11 +186,17 @@ class Fase:
                 """if not triggered:
                     self.__jogador.arma.projetil.mover_baixo(self.__jogador.velocidade)"""
             tempo_atual = self.__tempo_decorrido
+<<<<<<< HEAD
             if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > self.__jogador.arma.cadencia:
                 tiros = self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y)
                 for tiro in tiros:
                     self.__jogador.arma.disparos.add(tiro)
                 tempo_ultimo_tiro = tempo_atual  # Atualiza o tempo do último tiro
+=======
+            if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > delay_entre_tiros:
+                    self.__jogador.arma.disparos.add(self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y ,5, 1, 'versao_final/assets/imgs/shot1_asset.png', []))
+                    tempo_ultimo_tiro = tempo_atual  # Atualiza o tempo do último tiro
+>>>>>>> 575a4102406e298bc2f545573dedfb994bf31c54
 
             #colisoes ou respawn
             if contador != 0: #verifica se não está no primeiro laço

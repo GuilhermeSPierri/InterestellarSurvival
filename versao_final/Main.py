@@ -1,5 +1,10 @@
-from Jogo import Jogo
+import pygame
+import sys
+from State import GerenciadoraDeEstados
 
-jogo = Jogo()
-        
-jogo.iniciar_jogo()
+
+pygame.init()
+jogo = GerenciadoraDeEstados()
+jogo.executar()
+pygame.quit()
+sys.exit() 

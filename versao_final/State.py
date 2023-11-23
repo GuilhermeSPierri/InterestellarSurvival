@@ -12,15 +12,17 @@ class GerenciadoraDeEstados:
     def __init__(self):
         self.screen = pygame.display.set_mode((1100, 660))
         pygame.display.set_caption("Interstellar Survival")
-        self.font = pygame.font.Font('/home/guipierri/versao_final/assets/fonts/PixelGameFont.ttf', 50)  
+        self.font = pygame.font.Font('versao_final/assets/fonts/PixelGameFont.ttf', 50)  
         self.cor = (255, 255, 255)
 
         # Carrega os planos de fundo
-        self.bg3 = pygame.image.load('/home/guipierri/versao_final/assets/imgs/bg.png').convert_alpha()
-        self.bg4 = pygame.image.load('/home/guipierri/versao_final/assets/imgs/bg.png').convert_alpha()
+        self.bg3 = pygame.image.load('versao_final/assets/imgs/bg.png').convert_alpha()
+        self.bg4 = pygame.image.load('versao_final/assets/imgs/bg.png').convert_alpha()
         self.bg3 = pygame.transform.scale(self.bg3, (1100, 660))
         self.bg4 = pygame.transform.scale(self.bg4, (1100, 660))
-
+        self.som_game_over = pygame.mixer.Sound('versao_final/assets/audio/gameover.wav')
+        self.som_shoot_jogador = pygame.mixer.Sound('versao_final/assets/audio/shootjogador.mp3')
+        self.contador_musica = 0
         # Posições iniciais dos planos de fundo
         self.bg3_y = 0
         self.bg4_y = -self.bg3.get_height()

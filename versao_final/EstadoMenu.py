@@ -1,6 +1,7 @@
 import pygame
 from EstadoGenerico import EstadoGenerico
 
+contador = 0
 class EstadoMenu(EstadoGenerico):
     def lidar_com_eventos(self, eventos):
         for evento in eventos:
@@ -38,3 +39,8 @@ class EstadoMenu(EstadoGenerico):
         self.jogo.screen.blit(self.jogo.texto_how_to_play, self.jogo.rect_how_to_play)
         self.jogo.screen.blit(self.jogo.texto_creditos, self.jogo.rect_creditos)
         self.jogo.screen.blit(self.jogo.texto_ranking, self.jogo.rect_ranking)
+
+        if self.jogo.contador_musica == 0:
+            pygame.mixer.music.load('versao_final/assets/audio/Home.wav')
+            pygame.mixer.music.play(-1)
+            self.jogo.contador_musica += 1

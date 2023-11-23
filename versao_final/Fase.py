@@ -1,5 +1,5 @@
 from Obstaculo import Obstaculo
-from Powerup import PowerUp
+from Powerup import Powerup
 from Arma import Arma
 from Projetil import Projetil
 from Personagem import Personagem
@@ -13,13 +13,19 @@ import pygame, random
 
 
 class Fase:
-    def __init__(self, obstaculos,  projeteis, powerUps, inimigos, tempo_decorrido: float, jogador: Jogador):
+    def __init__(self, obstaculos,  projeteis, powerUps, inimigos, tempo_decorrido: float):
         self.__obstaculos = obstaculos
         self.__projeteis = projeteis
         self.__powerUps = powerUps
         self.__inimigos = inimigos
         self.__tempo_decorrido = tempo_decorrido
-        self.__jogador = jogador
+        self.__jogador = Jogador("Player 1", 3, 640, 600,
+                            Arma("Arma base",
+                                 Projetil(0, 0, 9, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                            ),
+                            6, 0, 'versao_final/assets/imgs/jogadorbase.png',
+                            ['versao_final/assets/imgs/jogadorbase.png', 'versao_final/assets/imgs/jogadorbase2.png', 'versao_final/assets/imgs/jogadorbase3.png', 'versao_final/assets/imgs/jogadorbase4.png']
+                    )
         self.__inimigo_base_factory = InimigoBaseFactory()
         self.__obstaculo_factory = ObstaculoFactory()
         self.__nivel = 0
@@ -28,6 +34,9 @@ class Fase:
         # TAMANHO DA TELA
         x = 1100
         y = 660
+
+        FPS = 80
+
          #inicia pygame
         pygame.init()
 
@@ -106,14 +115,23 @@ class Fase:
         #sprites de explosão
         explosion_group = pygame.sprite.Group()
 
+        #grupo de power ups
+        powerups = pygame.sprite.Group()
+
         #adiciona projetil aos sprites
         self.__jogador.arma.disparos = pygame.sprite.Group()
 
-        tempo_ultimo_tiro = pygame.time.get_ticks()
+        tempo_inicio_execucao = pygame.time.get_ticks()
+
+        self.__tempo_decorrido = 0
+
+        tempo_ultimo_tiro = self.__tempo_decorrido
         delay_entre_tiros = 300  # Defina o atraso desejado em milissegundos (por exemplo, 500 ms).
 
         #laço principal
         while rodando:
+
+            self.__tempo_decorrido = pygame.time.get_ticks() - tempo_inicio_execucao
 
             #laço de eventos
             for event in pygame.event.get():
@@ -136,7 +154,7 @@ class Fase:
             if bg2_y >= y:
                 bg2_y = bg1_y - bg1.get_height()
             
-            self.controle_dificuldade(x, -1000, pygame.time.get_ticks())
+            self.controle_dificuldade(x, -1000, self.__tempo_decorrido)
             
             #teclas pressionadas 
             #caso o jogador não esteja atirando, o projétil se move junto com a nave
@@ -157,7 +175,7 @@ class Fase:
                 self.__jogador.mover_baixo()
                 """if not triggered:
                     self.__jogador.arma.projetil.mover_baixo(self.__jogador.velocidade)"""
-            tempo_atual = pygame.time.get_ticks()
+            tempo_atual = self.__tempo_decorrido
             if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > delay_entre_tiros:
                 self.__jogador.arma.disparos.add(self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y ,5, 1, 'versao_final/assets/imgs/shot1_asset.png', []))
                 tempo_ultimo_tiro = tempo_atual  # Atualiza o tempo do último tiro
@@ -201,6 +219,9 @@ class Fase:
                     if self.__inimigos[i].vidas <= 0:
                         explosion = Explosao(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2, explosao1)
                         explosion_group.add(explosion)
+                        if random.random() > 0.9:
+                            pow = Powerup(self.__inimigos[i].rect.center)
+                            powerups.add(pow)
                         self.__inimigos[i].respawn(x, -1000)
                         self.__jogador.pontos += 1
 
@@ -213,7 +234,7 @@ class Fase:
                     self.__inimigos[i].rect.y = self.__inimigos[i].y
                 
                     #movimentacao do inimigo, somente para baixo
-                    self.__inimigos[i].mover_baixo()
+                    self.__inimigos[i].mover()
 
                     #cria a image do inimigo [i]
                     screen.blit(self.__inimigos[i].image, (self.__inimigos[i].x, self.__inimigos[i].y))
@@ -249,7 +270,7 @@ class Fase:
                     self.__obstaculos[i].rect.y = self.__obstaculos[i].y
                 
                     #movimentacao do obstaculo, somente para baixo
-                    self.__obstaculos[i].mover_baixo()
+                    self.__obstaculos[i].mover()
 
                     #cria a image do obstaculo [i]
                     screen.blit(self.__obstaculos[i].image, (self.__obstaculos[i].x, self.__obstaculos[i].y))
@@ -287,6 +308,9 @@ class Fase:
             explosion_group.draw(screen)
             explosion_group.update()
 
+            powerups.draw(screen)
+            powerups.update()
+
             #criar imagens do projetil e jogador
             #screen.blit(self.__jogador.arma.projetil.image, (self.__jogador.arma.projetil.x, self.__jogador.arma.projetil.y))
             screen.blit(self.__jogador.image, (self.__jogador.x, self.__jogador.y))
@@ -296,7 +320,7 @@ class Fase:
             if self.__jogador.vidas <= 0:
                 explosion = Explosao(self.__jogador.x + (self.__jogador.image.get_width())/2, self.__jogador.y  + (self.__inimigos[i].image.get_height())/2, explosao1)
                 explosion_group.add(explosion)
-                for i in range(40):  # Adicionei um loop para garantir que a explosão seja exibida por alguns frames
+                for i in range(40):#loop para garantir que a explosão seja exibida por alguns frames
                     # Atualiza a explosão
                     explosion_group.draw(screen)
                     explosion_group.update()
@@ -307,11 +331,11 @@ class Fase:
 
             pygame.display.update()
             pygame.display.flip()
-            clock.tick(80)  # Limita o jogo a 60 FPS
+            clock.tick(FPS)  # Limita o jogo a 60 FPS
 
             contador += 1 #contador é atualizado de acordo com a execução
 
-        pygame.quit()
+        #pygame.quit()
 
 #Getters e setters da classe
 

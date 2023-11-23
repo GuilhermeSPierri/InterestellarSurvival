@@ -17,6 +17,9 @@ class Obstaculo(pygame.sprite.Sprite):
     def mover_baixo(self):
         self.__y += self.__velocidade
 
+    def mover(self):
+        self.mover_baixo()
+
     def respawn(self, largura, altura=None):
         self.posicao_aleatoria(largura, altura)
         self.vidas = self.__maximo_vidas

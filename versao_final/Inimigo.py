@@ -17,3 +17,6 @@ class Inimigo(Personagem):
         else:
             self.y = random.randint(altura, 0)
         self.x = random.randint(1, largura-40)
+        
+    def mover(self):
+        self.mover_baixo()

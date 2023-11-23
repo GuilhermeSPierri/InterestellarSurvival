@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from Arma import Arma
 import pygame
 
-class Personagem(pygame.sprite.Sprite):
+class Personagem(pygame.sprite.Sprite, ABC):
     def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, image: str, sprites):
         super().__init__()
         self.__nome = nome

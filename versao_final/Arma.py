@@ -2,12 +2,21 @@ from Projetil import Projetil
 import pygame
 
 class Arma:
-    def __init__(self, nome: str, projetil: Projetil):
+    def __init__(self, nome: str, projetil: Projetil, cadencia):
         self.__nome = nome
         self.__projetil = projetil
+        self.__cadencia = cadencia
         self.__disparos = self.__disparos = pygame.sprite.Group()
 
 # Getters e setters
+    @property
+    def cadencia(self):
+        return self.__cadencia
+    
+    @cadencia.setter
+    def cadencia(self, cadencia):
+        self.__cadencia = cadencia
+    
     @property
     def nome(self):
         return self.__nome
@@ -32,8 +41,8 @@ class Arma:
     def disparos(self, disparos):
         self.__disparos = disparos
 
-    def atirar(self, x: int, y: int, velocidade: int, dano: int, imagem: str, sprites):
-        return Projetil(x, y, velocidade, dano, imagem, sprites)
+    def atirar(self, x: int, y: int):
+        return [Projetil(x, y, 5, 1, [])]
         
 
 

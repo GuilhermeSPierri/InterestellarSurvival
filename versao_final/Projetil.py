@@ -1,13 +1,13 @@
 import pygame
 
 class Projetil(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int, velocidade: int, dano: int, imagem: str, sprites):
+    def __init__(self, x: int, y: int, velocidade: int, dano: int, sprites):
         super().__init__()
         self.__x = x
         self.__y = y
         self.__velocidade = velocidade
         self.__dano = dano
-        self.__image = pygame.image.load(imagem)
+        self.__image = pygame.image.load("versao_final/assets/imgs/shot1_asset.png")
         self.__image = pygame.transform.rotate(self.__image, 90)
         self.__rect = self.__image.get_rect(center = (x, y))
 

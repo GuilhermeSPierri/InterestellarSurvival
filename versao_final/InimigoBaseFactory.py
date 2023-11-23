@@ -22,6 +22,6 @@ class InimigoBaseFactory(GameObjectFactory):
 
         inimigo = Inimigo("Inimigo base", vidas, x, y, 
                                 ArmaInimigo("Arma base",
-                                                ProjetilInimigo(0, 0, vel_projetil, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                                                ProjetilInimigo(0, 0, vel_projetil, 1, []), 0
                                 ), velocidade, img, None)
         return inimigo

@@ -19,6 +19,20 @@ class Obstaculo(pygame.sprite.Sprite):
 
     def mover(self):
         self.mover_baixo()
+        """# Determinar a direção para o jogador
+        if self.x < jogador_x:
+            self.x += 1
+        elif self.x > jogador_x:
+            self.x -= 1
+
+        if self.y < jogador_y:
+            self.y += 1
+        elif self.y > jogador_y:
+            self.y -= 1
+        
+        # Garantir que o inimigo não saia da tela
+        self.x = max(0, min(self.x, 1050))
+        self.y = max(0, min(self.y, 700))"""
 
     def respawn(self, largura, altura=None):
         self.posicao_aleatoria(largura, altura)

@@ -9,6 +9,9 @@ from Colisao import Colisao
 from Explosao import Explosao
 from InimigoBaseFactory import InimigoBaseFactory
 from ObstaculoFactory import ObstaculoFactory
+from PowerupVida import PowerupVida
+from PowerupArmaTripla import PowerupArmaTripla
+from PowerupMaisDano import PowerupMaisDano
 import pygame, random
 
 
@@ -21,7 +24,7 @@ class Fase:
         self.__tempo_decorrido = tempo_decorrido
         self.__jogador = Jogador("Player 1", 3, 640, 600,
                             Arma("Arma base",
-                                 Projetil(0, 0, 9, 1, 'versao_final/assets/imgs/shot1_asset.png', [])
+                                 Projetil(0, 0, 9, 1, []), 300
                             ),
                             6, 0, 'versao_final/assets/imgs/jogadorbase.png',
                             ['versao_final/assets/imgs/jogadorbase.png', 'versao_final/assets/imgs/jogadorbase2.png', 'versao_final/assets/imgs/jogadorbase3.png', 'versao_final/assets/imgs/jogadorbase4.png']
@@ -134,7 +137,6 @@ class Fase:
         self.__tempo_decorrido = 0
 
         tempo_ultimo_tiro = self.__tempo_decorrido
-        delay_entre_tiros = 300  # Defina o atraso desejado em milissegundos (por exemplo, 500 ms).
 
         #laço principal
         while rodando:
@@ -184,8 +186,10 @@ class Fase:
                 """if not triggered:
                     self.__jogador.arma.projetil.mover_baixo(self.__jogador.velocidade)"""
             tempo_atual = self.__tempo_decorrido
-            if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > delay_entre_tiros:
-                self.__jogador.arma.disparos.add(self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y ,5, 1, 'versao_final/assets/imgs/shot1_asset.png', []))
+            if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > self.__jogador.arma.cadencia:
+                tiros = self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y)
+                for tiro in tiros:
+                    self.__jogador.arma.disparos.add(tiro)
                 tempo_ultimo_tiro = tempo_atual  # Atualiza o tempo do último tiro
 
             #colisoes ou respawn
@@ -196,7 +200,7 @@ class Fase:
                 #laço dos inimigos
                 for i in range(len(self.__inimigos)):
                     if random.randrange(0, 100) == 1 and self.__inimigos[i].y>0:
-                        self.__inimigos[i].arma.disparos.add(self.__inimigos[i].arma.atirar(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2,7, 1, 'versao_final/assets/imgs/shot4_5.png', []))
+                        self.__inimigos[i].arma.disparos.add(self.__inimigos[i].arma.atirar(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2,7, 1, []))
                     self.__inimigos[i].arma.disparos.draw(screen)
                     self.__inimigos[i].arma.disparos.update(y)
 
@@ -220,16 +224,16 @@ class Fase:
                     # Verifica colisões do projétil com inimigos
                     for projetil in self.__jogador.arma.disparos:
                         if colisao.check(self.__inimigos[i].rect, projetil.rect):
-                            self.__inimigos[i].vidas -= 1
+                            self.__inimigos[i].vidas -= projetil.dano
                             projetil.kill()  # Remove o projétil após acertar um inimigo
 
                     #respawn inimigo morreu
                     if self.__inimigos[i].vidas <= 0:
                         explosion = Explosao(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2, explosao1)
                         explosion_group.add(explosion)
-                        if random.random() > 0.9:
-                            pow = Powerup(self.__inimigos[i].rect.center)
-                            powerups.add(pow)
+
+                        self.gerar_power_up(self.__inimigos[i], powerups)
+                        
                         self.__inimigos[i].respawn(x, -1000)
                         self.__jogador.pontos += 1
 
@@ -241,7 +245,7 @@ class Fase:
                     self.__inimigos[i].rect.x = self.__inimigos[i].x
                     self.__inimigos[i].rect.y = self.__inimigos[i].y
                 
-                    #movimentacao do inimigo, somente para baixo
+                    #movimentacao do inimigo
                     self.__inimigos[i].mover()
 
                     #cria a image do inimigo [i]
@@ -259,7 +263,7 @@ class Fase:
                     #checa se o obstaculo da posição [i] da lista foi acertado com o projétil
                     for projetil in self.__jogador.arma.disparos:
                         if colisao.check(self.__obstaculos[i].rect, projetil.rect):
-                            self.__obstaculos[i].vidas -= 1
+                            self.__obstaculos[i].vidas -= projetil.dano
                             projetil.kill()  # Remove o projétil após acertar um inimigo
 
                     #respawn obstaculo destruido
@@ -287,6 +291,11 @@ class Fase:
             for projetil in self.__jogador.arma.disparos:
                 if projetil.rect.y < 0:
                     projetil.kill()  # Remove o projétil após acertar um inimigo
+            
+            for power in powerups:
+                if colisao.check(self.__jogador.rect, power.rect):
+                    power.implementar_power(self.__jogador, pygame.time.get_ticks())
+                    power.kill() 
 
             #posição do rect do jogador
             self.__jogador.rect.x = self.__jogador.x
@@ -504,8 +513,11 @@ class Fase:
     def atualizar(self):
         pass
 
-    def gerar_power_up(self):
-        pass
+    def gerar_power_up(self, inimigo, grupo_power):
+        if random.random() > 0.90:
+            opcoes = [PowerupArmaTripla(inimigo.rect.center), PowerupVida(inimigo.rect.center), PowerupMaisDano(inimigo.rect.center)]
+            pow = random.choice(opcoes)
+            grupo_power.add(pow)
 
     def coletar_power_up(self):
         pass

@@ -1,13 +1,10 @@
-from Jogo import Jogo
+import pygame
+import sys
+from State import GerenciadoraDeEstados
 
-jogo = Jogo()
-        
-jogo.iniciar_jogo()
 
-"""if __name__ == "__main__":
-    pygame.init()
-    jogo = GerenciadoraDeEstados()
-    jogo.executar()
-    pygame.quit()
-    sys.exit()
-"""
+pygame.init()
+jogo = GerenciadoraDeEstados()
+jogo.executar()
+pygame.quit()
+sys.exit()

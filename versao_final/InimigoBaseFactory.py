@@ -8,7 +8,7 @@ from ProjetilInimigo import ProjetilInimigo
 
 class InimigoBaseFactory(GameObjectFactory):
 
-    def criar_objeto(self, x, y, vidas, velocidade_min, velocidade_max):
+    def criar_objeto(self, x, y, vida_min, vida_max, velocidade_min, velocidade_max):
 
         img_inimigos_base = ['versao_final/assets/imgs/inimigobase.png', 'versao_final/assets/imgs/inimigobase2.png','versao_final/assets/imgs/inimigobase3.png', 'versao_final/assets/imgs/inimigobase4.png', 'versao_final/assets/imgs/inimigobaseazul.png', 'versao_final/assets/imgs/inimigobaseverde.png']
         img = random.choice(img_inimigos_base)
@@ -19,8 +19,10 @@ class InimigoBaseFactory(GameObjectFactory):
             vel_projetil = velocidade+2
         else:
             vel_projetil = 9
+        
+        vida = random.randint(vida_min, vida_max)
 
-        inimigo = Inimigo("Inimigo base", vidas, x, y, 
+        inimigo = Inimigo("Inimigo base", vida, x, y, 
                                 ArmaInimigo("Arma base",
                                                 ProjetilInimigo(0, 0, vel_projetil, 1, []), 0
                                 ), velocidade, img, None)

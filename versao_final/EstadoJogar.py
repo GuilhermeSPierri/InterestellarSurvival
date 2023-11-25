@@ -1,6 +1,7 @@
 import pygame
 from EstadoGenerico import EstadoGenerico
 from Jogo import Jogo
+from Configuracoes import Configuracoes
 import time
 
 class EstadoJogar(EstadoGenerico):
@@ -21,8 +22,10 @@ class EstadoJogar(EstadoGenerico):
         pass
 
     def desenhar(self):
+
+        config = Configuracoes()
         #carrega a musica e inicia o jogo
-        pygame.mixer.music.load('versao_final/assets/audio/MyVeryOwnDeadShip.ogg')
+        pygame.mixer.music.load(config.audio_jogo)
         p = Jogo()
         pygame.mixer.music.play(-1)
         p.iniciar_jogo()
@@ -33,7 +36,7 @@ class EstadoJogar(EstadoGenerico):
 
         #inicia o som de game over
         self.jogo.som_game_over.play()
-        pygame.mixer.music.load('versao_final/assets/audio/Home.wav')
+        pygame.mixer.music.load(config.audio_home)
         time.sleep(2)
         pygame.mixer.music.play(-1)
 

@@ -1,5 +1,6 @@
 import pygame
 from EstadoGenerico import EstadoGenerico
+from Configuracoes import Configuracoes
 
 class EstadoInstrucao(EstadoGenerico):
     def lidar_com_eventos(self, eventos):
@@ -14,7 +15,9 @@ class EstadoInstrucao(EstadoGenerico):
         pass
 
     def desenhar(self):
-        self.font = pygame.font.Font('versao_final/assets/fonts/PixelGameFont.ttf', 32)
+
+        config = Configuracoes()
+        self.font = pygame.font.Font(config.caminho_fonte1, 32)
         # Criando o texto que será exibido na tela, divido por linhas
         linhas = [
             "Seja bem-vindo(a) ao Interstellar Survival! Para continuar se divertindo",

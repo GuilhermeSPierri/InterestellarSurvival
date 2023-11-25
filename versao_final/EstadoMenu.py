@@ -1,5 +1,6 @@
 import pygame
 from EstadoGenerico import EstadoGenerico
+from Configuracoes import Configuracoes
 
 contador = 0
 class EstadoMenu(EstadoGenerico):
@@ -22,6 +23,7 @@ class EstadoMenu(EstadoGenerico):
         pass
 
     def desenhar(self):
+        config = Configuracoes()
 
         # Desenha os planos de fundo
         self.jogo.screen.blit(self.jogo.bg3, (0, self.jogo.bg3_y))
@@ -41,6 +43,6 @@ class EstadoMenu(EstadoGenerico):
         self.jogo.screen.blit(self.jogo.texto_ranking, self.jogo.rect_ranking)
 
         if self.jogo.contador_musica == 0:
-            pygame.mixer.music.load('versao_final/assets/audio/Home.wav')
+            pygame.mixer.music.load(config.audio_home)
             pygame.mixer.music.play(-1)
             self.jogo.contador_musica += 1

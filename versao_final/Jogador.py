@@ -10,6 +10,17 @@ class Jogador(Personagem):
         self.__pontos= pontos
         self.__contador = 0
         self.__power = 0
+        #carrega e deixa as imagens do jogador e rotaciona numa determinada escala
+        self.image = pygame.image.load(self.image).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (80, 40))
+        self.image = pygame.transform.rotate(self.image, 90)
+
+        #coloca a nave do jogador na posição inicial
+        self.x = 640
+        self.y = 600
+
+        #pega o rect da image jogador (usado para verificar colisões)
+        self.rect = self.image.get_rect()
 
 
     @property

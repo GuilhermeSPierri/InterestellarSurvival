@@ -7,7 +7,6 @@ from Projetil import Projetil
 class PowerupArmaTripla(Powerup):
     def __init__(self, center):
         super().__init__(center)
-        #self.type = random.choice(['shield', 'gun'])
         self.image = pygame.image.load('versao_final/assets/imgs/speed.png').convert()
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.image.set_colorkey((0, 0, 0))
@@ -17,7 +16,7 @@ class PowerupArmaTripla(Powerup):
     
     def implementar_power(self, jogador, tempo):
         jogador.arma = ArmaTripla("Arma tripla",
-                                 Projetil(0, 0, 9, 1, []), 250
+                                 Projetil(0, 0, 9, 1, []), 400
                         )
-        jogador.coletou_power_up(tempo);
+        jogador.coletou_power_up(tempo)
     

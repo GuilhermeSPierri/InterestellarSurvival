@@ -6,7 +6,7 @@ class Arma:
         self.__nome = nome
         self.__projetil = projetil
         self.__cadencia = cadencia
-        self.__disparos = self.__disparos = pygame.sprite.Group()
+        self.__disparos = pygame.sprite.Group()
 
 # Getters e setters
     @property

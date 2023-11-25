@@ -1,5 +1,6 @@
 import pygame
 from EstadoGenerico import EstadoGenerico
+from Configuracoes import Configuracoes
 
 class EstadoCreditos(EstadoGenerico):
     def lidar_com_eventos(self, eventos):
@@ -14,7 +15,8 @@ class EstadoCreditos(EstadoGenerico):
         pass
 
     def desenhar(self):
-        self.font = pygame.font.Font('versao_final/assets/fonts/PixelGameFont.ttf', 36)
+        config = Configuracoes()
+        self.font = pygame.font.Font(config.caminho_fonte1, 36)
         
         # Criando o texto que será exibido na tela, divido por linhas
         linhas = [

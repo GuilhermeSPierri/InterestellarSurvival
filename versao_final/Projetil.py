@@ -1,4 +1,5 @@
 import pygame
+from Configuracoes import Configuracoes
 
 class Projetil(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int, velocidade: int, dano: int, sprites):
@@ -7,7 +8,8 @@ class Projetil(pygame.sprite.Sprite):
         self.__y = y
         self.__velocidade = velocidade
         self.__dano = dano
-        self.__image = pygame.image.load("versao_final/assets/imgs/shot1_asset.png")
+        config = Configuracoes()
+        self.__image = pygame.image.load(config.img_projetil_verde)
         self.__image = pygame.transform.rotate(self.__image, 90)
         self.__rect = self.__image.get_rect(center = (x, y))
 

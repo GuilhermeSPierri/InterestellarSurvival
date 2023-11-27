@@ -1,11 +1,12 @@
 from Projetil import Projetil
-from Arma import Arma
-import random, pygame
+from Configuracoes import Configuracoes
+import pygame
 
 class ProjetilInimigo(Projetil):
     def __init__(self, x: int, y: int, velocidade: int, dano: int, sprites):
         super().__init__(x, y, velocidade, dano, sprites)
-        self.image = pygame.image.load("versao_final/assets/imgs/shot4_5.png")
+        config = Configuracoes()
+        self.image = pygame.image.load(config.img_projetil_inimigo)
         self.image = pygame.transform.rotate(self.image, 90)
         self.rect = self.image.get_rect(center = (x, y))
 

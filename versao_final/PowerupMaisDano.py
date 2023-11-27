@@ -1,13 +1,15 @@
-import pygame, random
+import pygame
 from Powerup import Powerup
 from ArmaMaisDano import ArmaMaisDano
 from Projetil import Projetil
+from Configuracoes import Configuracoes
 
 
 class PowerupMaisDano(Powerup):
     def __init__(self, center):
         super().__init__(center)
-        self.image = pygame.image.load('versao_final/assets/imgs/incrementar.png').convert()
+        config = Configuracoes()
+        self.image = pygame.image.load(config.img_powerup_armamaisdano).convert()
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.image.set_colorkey((0, 0, 0))
         self.rect = self.image.get_rect()

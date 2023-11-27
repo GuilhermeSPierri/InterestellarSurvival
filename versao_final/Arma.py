@@ -1,4 +1,5 @@
 from Projetil import Projetil
+from Configuracoes import Configuracoes
 import pygame
 
 class Arma:
@@ -7,7 +8,9 @@ class Arma:
         self.__projetil = projetil
         self.__cadencia = cadencia
         self.__disparos = pygame.sprite.Group()
-
+        config = Configuracoes()
+        self.__som = pygame.mixer.Sound(config.audio_tiro)
+        
 # Getters e setters
     @property
     def cadencia(self):
@@ -16,6 +19,14 @@ class Arma:
     @cadencia.setter
     def cadencia(self, cadencia):
         self.__cadencia = cadencia
+    
+    @property
+    def som(self):
+        return self.__som
+    
+    @som.setter
+    def som(self, som):
+        self.__som = som
     
     @property
     def nome(self):

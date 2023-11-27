@@ -1,15 +1,8 @@
-from Obstaculo import Obstaculo
-from Powerup import Powerup
 from Arma import Arma
 from Projetil import Projetil
-from Personagem import Personagem
 from Jogador import Jogador
-from Inimigo import Inimigo
 from Colisao import Colisao
 from Explosao import Explosao
-from InimigoBaseFactory import InimigoBaseFactory
-from InimigoZigzagFactory import InimigoZigzagFactory
-from ObstaculoFactory import ObstaculoFactory
 from PowerupVida import PowerupVida
 from PowerupArmaTripla import PowerupArmaTripla
 from PowerupMaisDano import PowerupMaisDano
@@ -151,6 +144,7 @@ class Fase:
                 self.__jogador.mover_baixo()
             tempo_atual = self.__tempo_decorrido
             if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > self.__jogador.arma.cadencia:
+                self.__jogador.arma.som.play()
                 tiros = self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y)
                 for tiro in tiros:
                     self.__jogador.arma.disparos.add(tiro)

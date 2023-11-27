@@ -36,15 +36,107 @@ class Configuracoes:
                     'versao_final/assets/imgs/tile014.png','versao_final/assets/imgs/tile015.png',
                     'versao_final/assets/imgs/tile016.png'
             ]
+            cls._instance.__inimigo_base = ['versao_final/assets/imgs/inimigobase.png',
+                                            'versao_final/assets/imgs/inimigobase2.png',
+                                            'versao_final/assets/imgs/inimigobase3.png',
+                                            'versao_final/assets/imgs/inimigobase4.png',
+                                            'versao_final/assets/imgs/inimigobaseazul.png',
+                                            'versao_final/assets/imgs/inimigobaseverde.png'
+            ]
+            cls._instance.__inimigo_zigzag = ['versao_final/assets/imgs/fighter.png']
+            cls._instance.__obstaculo_base = ['versao_final/assets/imgs/meteor.png',
+                                              'versao_final/assets/imgs/meteor2.png',
+                                              'versao_final/assets/imgs/meteor3.png',
+                                              'versao_final/assets/imgs/meteor4.png'
+            ]
             cls._instance.__caminho_imagem_coracao_cheio = 'versao_final/assets/imgs/coracao_cheio.png'
             cls._instance.__caminho_imagem_barra_score = 'versao_final/assets/imgs/barra_score.png'
             cls._instance.__audio_gameover = 'versao_final/assets/audio/gameover.wav'
             cls._instance.__audio_tiro = 'versao_final/assets/audio/shootjogador.mp3'
-            cls._instance.__audio_jogo = 'versao_final/assets/audio/MyVeryOwnDeadShip.ogg'
-            cls._instance.__audio_home = 'versao_final/assets/audio/Home.wav'
+            cls._instance.__audio_jogo = 'versao_final/assets/audio/OrbitalColossus.mp3'
+            cls._instance.__audio_home = 'versao_final/assets/audio/BlindShift.mp3'
+            cls._instance.__img_powerup_armatripla = 'versao_final/assets/imgs/speed.png'
+            cls._instance.__img_powerup_armamaisdano = 'versao_final/assets/imgs/incrementar.png'
+            cls._instance.__img_powerup_vida = 'versao_final/assets/imgs/coracao.png'
+            cls._instance.__img_projetil_verde = 'versao_final/assets/imgs/shot1_asset.png'
+            cls._instance.__img_projetil_amarelo = 'versao_final/assets/imgs/projetil_amarelo.png'
+            cls._instance.__img_projetil_amarelo = 'versao_final/assets/imgs/projetil_amarelo.png'
+            cls._instance.__img_projetil_inimigo = 'versao_final/assets/imgs/shot4_5.png'
+
         return cls._instance
 
-    # Métodos para acessar e modificar caminhos de imagens
+    @property
+    def img_projetil_inimigo(self):
+        return self.__img_projetil_inimigo
+    
+    @img_projetil_inimigo.setter
+    def img_projetil_inimigo(self, img_projetil_inimigo):
+        self.__img_projetil_inimigo = img_projetil_inimigo
+
+    @property
+    def img_projetil_amarelo(self):
+        return self.__img_projetil_amarelo
+    
+    @img_projetil_amarelo.setter
+    def img_projetil_amarelo(self, img_projetil_amarelo):
+        self.__img_projetil_amarelo = img_projetil_amarelo
+
+    @property
+    def img_projetil_verde(self):
+        return self.__img_projetil_verde
+    
+    @img_projetil_verde.setter
+    def img_projetil_verde(self, img_projetil_verde):
+        self.__img_projetil_verde = img_projetil_verde
+
+    @property
+    def img_powerup_vida(self):
+        return self.__img_powerup_vida
+    
+    @img_powerup_vida.setter
+    def img_powerup_vida(self, img_powerup_vida):
+        self.__img_powerup_vida = img_powerup_vida
+
+    @property
+    def img_powerup_armamaisdano(self):
+        return self.__img_powerup_armamaisdano
+    
+    @img_powerup_armamaisdano.setter
+    def img_powerup_armamaisdano(self, img_powerup_armamaisdano):
+        self.__img_powerup_armamaisdano = img_powerup_armamaisdano
+    
+    @property
+    def img_powerup_armatripla(self):
+        return self.__img_powerup_armatripla
+    
+    @img_powerup_armatripla.setter
+    def img_powerup_armatripla(self, img_powerup_armatripla):
+        self.__img_powerup_armatripla = img_powerup_armatripla
+
+    @property
+    def obstaculo_base(self):
+        return self.__obstaculo_base
+    
+    @obstaculo_base.setter
+    def obstaculo_base(self, obstaculo_base):
+        self.__obstaculo_base = obstaculo_base
+
+    @property
+    def inimigo_zigzag(self):
+        return self.__inimigo_zigzag
+    
+    @inimigo_zigzag.setter
+    def inimigo_base(self, inimigo_zigzag):
+        self.__inimigo_zigzag = inimigo_zigzag
+
+    @property
+    def inimigo_base(self):
+        return self.__inimigo_base
+    
+    @inimigo_base.setter
+    def inimigo_base(self, inimigo_base):
+        self.__inimigo_base = inimigo_base
+    
     @property
     def audio_home(self):
         return self.__audio_home

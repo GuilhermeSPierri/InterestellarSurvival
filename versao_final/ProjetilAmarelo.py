@@ -1,10 +1,13 @@
 from Projetil import Projetil
-import random, pygame
+from Configuracoes import Configuracoes
+import pygame
+
 
 class ProjetilAmarelo(Projetil):
     def __init__(self, x: int, y: int, velocidade: int, dano: int, sprites):
         super().__init__(x, y, velocidade, dano, sprites)
-        self.image = pygame.image.load("versao_final/assets/imgs/projetil_amarelo.png")
+        config = Configuracoes()
+        self.image = pygame.image.load(config.img_projetil_amarelo)
         self.image = pygame.transform.rotate(self.image, 90)
         self.image = pygame.transform.scale(self.image, (60, 60))
 

@@ -1,13 +1,15 @@
-import pygame, random
+import pygame
 from Powerup import Powerup
 from ArmaTripla import ArmaTripla
 from Projetil import Projetil
+from Configuracoes import Configuracoes
 
 
 class PowerupArmaTripla(Powerup):
     def __init__(self, center):
         super().__init__(center)
-        self.image = pygame.image.load('versao_final/assets/imgs/speed.png').convert()
+        config = Configuracoes()
+        self.image = pygame.image.load(config.img_powerup_armatripla).convert()
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.image.set_colorkey((0, 0, 0))
         self.rect = self.image.get_rect()

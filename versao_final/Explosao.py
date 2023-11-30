@@ -15,6 +15,7 @@ class Explosao(pygame.sprite.Sprite):
 		self.counter = 0
 
 	def update(self):
+		
 		explosion_speed = 4
 		#update explosion animation
 		self.counter += 1

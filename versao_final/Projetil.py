@@ -2,7 +2,7 @@ import pygame
 from Configuracoes import Configuracoes
 
 class Projetil(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int, velocidade: int, dano: int, sprites):
+    def __init__(self, x: int, y: int, velocidade: int, dano: int):
         super().__init__()
         self.__x = x
         self.__y = y

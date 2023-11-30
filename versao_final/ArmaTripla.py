@@ -6,11 +6,11 @@ import random, pygame
 
 
 class ArmaTripla(Arma):
-    def __init__(self, nome: str, projetil: Projetil, cadencia):
-        super().__init__(nome, projetil, cadencia)
+    def __init__(self, nome: str, cadencia):
+        super().__init__(nome, cadencia)
 
     def atirar(self, x: int, y: int):
-        return [ProjetilEsquerda(x, y, 5, 1, []),
-                Projetil(x, y, 5, 1, []),
-                ProjetilDireita(x, y, 5, 1, [])
+        return [ProjetilEsquerda(x, y, 5, 1),
+                Projetil(x, y, 5, 1),
+                ProjetilDireita(x, y, 5, 1)
                 ]

@@ -34,8 +34,7 @@ class Fase:
         pygame.init()
 
         self.__jogador = Jogador("Player 1", 3, round(self.__config.largura_tela/2), self.__config.altura_tela-30,
-                            Arma("Arma base",
-                                 Projetil(0, 0, 9, 1, []), 300
+                            Arma("Arma base", 300
                             ),
                             6, 0, self.__config.caminho_imagem_jogador,
                             self.__config.sprites_jogador
@@ -144,7 +143,6 @@ class Fase:
                 self.__jogador.mover_baixo()
             tempo_atual = self.__tempo_decorrido
             if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > self.__jogador.arma.cadencia:
-                self.__jogador.arma.som.play()
                 tiros = self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y)
                 for tiro in tiros:
                     self.__jogador.arma.disparos.add(tiro)
@@ -158,7 +156,7 @@ class Fase:
                 #laço dos inimigos
                 for i in range(len(self.__inimigos)):
                     if random.randrange(0, 100) == 1 and self.__inimigos[i].y>0:
-                        self.__inimigos[i].arma.disparos.add(self.__inimigos[i].arma.atirar(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2,7, 1, []))
+                        self.__inimigos[i].arma.disparos.add(self.__inimigos[i].arma.atirar(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height()),7, 1))
                     self.__inimigos[i].arma.disparos.draw(screen)
                     self.__inimigos[i].arma.disparos.update(y)
 
@@ -238,7 +236,7 @@ class Fase:
                     self.__obstaculos[i].rect.y = self.__obstaculos[i].y
                 
                     #movimentacao do obstaculo
-                    self.__obstaculos[i].mover()
+                    self.__obstaculos[i].mover(self.__jogador.rect.x, self.__jogador.rect.y)
 
                     #cria a image do obstaculo [i]
                     screen.blit(self.__obstaculos[i].image, (self.__obstaculos[i].x, self.__obstaculos[i].y))

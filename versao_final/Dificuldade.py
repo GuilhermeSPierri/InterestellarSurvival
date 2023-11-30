@@ -1,6 +1,7 @@
 from InimigoBaseFactory import InimigoBaseFactory
 from InimigoZigzagFactory import InimigoZigzagFactory
 from ObstaculoFactory import ObstaculoFactory
+from ObstaculoPerseguidorFactory import ObstaculoPerseguidorFactory
 import pygame
 
 class Dificuldade():
@@ -10,6 +11,7 @@ class Dificuldade():
         self.__inimigo_base_factory = InimigoBaseFactory()
         self.__inimigo_zig_zag_factory = InimigoZigzagFactory()
         self.__obstaculo_factory = ObstaculoFactory()
+        self.__obstaculo_perseguidor_factory = ObstaculoPerseguidorFactory()
     
     @property
     def nivel(self):
@@ -24,6 +26,7 @@ class Dificuldade():
         tamanho_onda_obstaculo = 0
         tamanho_onda_inimigo = 0
         tamanho_onda_inimigo_zig_zag = 0
+        tamanho_onda_obstaculo_perseguidor = 0
 
         vida_max_obstaculo = 1
         vida_min_obstaculo = 1
@@ -73,6 +76,8 @@ class Dificuldade():
 
             self.__nivel += 1
 
+            tamanho_onda_obstaculo_perseguidor = 1
+
             tamanho_onda_obstaculo = 1
             vida_min_obstaculo = 3
             vida_max_obstaculo = 4
@@ -88,6 +93,8 @@ class Dificuldade():
         
         elif self.__nivel == 3 and tempo >= 35000:
             self.__nivel += 1
+
+            tamanho_onda_obstaculo_perseguidor = 2
 
             tamanho_onda_obstaculo = 1
             vida_min_obstaculo = 7
@@ -105,13 +112,22 @@ class Dificuldade():
         
         elif self.__nivel == 4 and tempo >= 45000:
             self.__nivel += 1
-            tamanho_onda_inimigo_zig_zag = 1
+            tamanho_onda_obstaculo_perseguidor = 1
+            tamanho_onda_inimigo_zig_zag = 3
             
             
         for i in range(tamanho_onda_obstaculo):
             obstaculo = self.__obstaculo_factory.criar_objeto(0, -2000, vida_min_obstaculo, vida_max_obstaculo, velocidade_minima_obstaculo, velocidade_maxima_obstaculo)
             obstaculo.image = pygame.image.load(obstaculo.image).convert_alpha()
             obstaculo.image = pygame.transform.scale(obstaculo.image, (escala_x_obstaculo, escala_y_obstaculo))
+            obstaculo.posicao_aleatoria(x, -1000)
+            obstaculo.rect = obstaculo.image.get_rect()
+            obstaculos.append(obstaculo)
+        
+        for i in range(tamanho_onda_obstaculo_perseguidor):
+            obstaculo = self.__obstaculo_perseguidor_factory.criar_objeto(0, -3500, 4, 5, 1, 2)
+            obstaculo.image = pygame.image.load(obstaculo.image).convert_alpha()
+            obstaculo.image = pygame.transform.scale(obstaculo.image, (50, 50))
             obstaculo.posicao_aleatoria(x, -1000)
             obstaculo.rect = obstaculo.image.get_rect()
             obstaculos.append(obstaculo)

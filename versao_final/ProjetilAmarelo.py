@@ -4,8 +4,8 @@ import pygame
 
 
 class ProjetilAmarelo(Projetil):
-    def __init__(self, x: int, y: int, velocidade: int, dano: int, sprites):
-        super().__init__(x, y, velocidade, dano, sprites)
+    def __init__(self, x: int, y: int, velocidade: int, dano: int):
+        super().__init__(x, y, velocidade, dano)
         config = Configuracoes()
         self.image = pygame.image.load(config.img_projetil_amarelo)
         self.image = pygame.transform.rotate(self.image, 90)

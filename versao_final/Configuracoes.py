@@ -1,69 +1,96 @@
+from HighscoreManager import HighscoreManager
 class Configuracoes:
     _instance = None
 
     def __new__(cls):
         if not cls._instance:
             cls._instance = super(Configuracoes, cls).__new__(cls)
-            # Adicione aqui as configurações globais que deseja gerenciar
+            
+            caminho_base = 'versao_final/'
+
             cls._instance.__titulo = 'Interstellar Survival'
-            cls._instance.__caminho_background = 'versao_final/assets/imgs/bg.png'
+            cls._instance.__caminho_background = f'{caminho_base}assets/imgs/bg.png'
             cls._instance.__FPS = 80
             cls._instance.__largura_tela = 1100
             cls._instance.__altura_tela = 660
-            cls._instance.__caminho_fonte1 = 'versao_final/assets/fonts/PixelGameFont.ttf'
-            cls._instance.__caminho_imagem_jogador = 'versao_final/assets/imgs/jogadorbase.png'
-            cls._instance.__sprites_jogador = ['versao_final/assets/imgs/jogadorbase.png',
-                                            'versao_final/assets/imgs/jogadorbase2.png',
-                                            'versao_final/assets/imgs/jogadorbase3.png',
-                                            'versao_final/assets/imgs/jogadorbase4.png'
-                                            ]
+            cls._instance.__caminho_fonte1 = f'{caminho_base}assets/fonts/PixelGameFont.ttf'
+            cls._instance.__caminho_imagem_jogador = f'{caminho_base}assets/imgs/jogadorbase.png'
+            cls._instance.__sprites_jogador = [f'{caminho_base}assets/imgs/jogadorbase.png',
+                                               f'{caminho_base}assets/imgs/jogadorbase2.png',
+                                               f'{caminho_base}assets/imgs/jogadorbase3.png',
+                                               f'{caminho_base}assets/imgs/jogadorbase4.png']
             cls._instance.__caminho_imagem_explosao1 = [
-                    'versao_final/assets/imgs/Explosion3_1.png','versao_final/assets/imgs/Explosion3_2.png',
-                    'versao_final/assets/imgs/Explosion3_3.png','versao_final/assets/imgs/Explosion3_4.png',
-                    'versao_final/assets/imgs/Explosion3_5.png','versao_final/assets/imgs/Explosion3_6.png',
-                    'versao_final/assets/imgs/Explosion3_7.png','versao_final/assets/imgs/Explosion3_8.png',
-                    'versao_final/assets/imgs/Explosion3_9.png','versao_final/assets/imgs/Explosion3_10.png',
-                    'versao_final/assets/imgs/Explosion3_11.png',
-                ]
+                f'{caminho_base}assets/imgs/Explosion3_1.png', f'{caminho_base}assets/imgs/Explosion3_2.png',
+                f'{caminho_base}assets/imgs/Explosion3_3.png', f'{caminho_base}assets/imgs/Explosion3_4.png',
+                f'{caminho_base}assets/imgs/Explosion3_5.png', f'{caminho_base}assets/imgs/Explosion3_6.png',
+                f'{caminho_base}assets/imgs/Explosion3_7.png', f'{caminho_base}assets/imgs/Explosion3_8.png',
+                f'{caminho_base}assets/imgs/Explosion3_9.png', f'{caminho_base}assets/imgs/Explosion3_10.png',
+                f'{caminho_base}assets/imgs/Explosion3_11.png']
             cls._instance.__caminho_imagem_explosao2 = [
-                    'versao_final/assets/imgs/tile000.png','versao_final/assets/imgs/tile001.png',
-                    'versao_final/assets/imgs/tile002.png','versao_final/assets/imgs/tile003.png',
-                    'versao_final/assets/imgs/tile004.png','versao_final/assets/imgs/tile005.png',
-                    'versao_final/assets/imgs/tile006.png','versao_final/assets/imgs/tile007.png',
-                    'versao_final/assets/imgs/tile008.png','versao_final/assets/imgs/tile009.png',
-                    'versao_final/assets/imgs/tile010.png','versao_final/assets/imgs/tile011.png',
-                    'versao_final/assets/imgs/tile012.png','versao_final/assets/imgs/tile013.png',
-                    'versao_final/assets/imgs/tile014.png','versao_final/assets/imgs/tile015.png',
-                    'versao_final/assets/imgs/tile016.png'
-            ]
-            cls._instance.__inimigo_base = ['versao_final/assets/imgs/inimigobase.png',
-                                            'versao_final/assets/imgs/inimigobase2.png',
-                                            'versao_final/assets/imgs/inimigobase3.png',
-                                            'versao_final/assets/imgs/inimigobase4.png',
-                                            'versao_final/assets/imgs/inimigobaseazul.png',
-                                            'versao_final/assets/imgs/inimigobaseverde.png'
-            ]
-            cls._instance.__inimigo_zigzag = ['versao_final/assets/imgs/fighter.png']
-            cls._instance.__obstaculo_base = ['versao_final/assets/imgs/meteor.png',
-                                              'versao_final/assets/imgs/meteor2.png',
-                                              'versao_final/assets/imgs/meteor3.png',
-                                              'versao_final/assets/imgs/meteor4.png'
-            ]
-            cls._instance.__caminho_imagem_coracao_cheio = 'versao_final/assets/imgs/coracao_cheio.png'
-            cls._instance.__caminho_imagem_barra_score = 'versao_final/assets/imgs/barra_score.png'
-            cls._instance.__audio_gameover = 'versao_final/assets/audio/gameover.wav'
-            cls._instance.__audio_tiro = 'versao_final/assets/audio/shootjogador.mp3'
-            cls._instance.__audio_jogo = 'versao_final/assets/audio/OrbitalColossus.mp3'
-            cls._instance.__audio_home = 'versao_final/assets/audio/BlindShift.mp3'
-            cls._instance.__img_powerup_armatripla = 'versao_final/assets/imgs/speed.png'
-            cls._instance.__img_powerup_armamaisdano = 'versao_final/assets/imgs/incrementar.png'
-            cls._instance.__img_powerup_vida = 'versao_final/assets/imgs/coracao.png'
-            cls._instance.__img_projetil_verde = 'versao_final/assets/imgs/shot1_asset.png'
-            cls._instance.__img_projetil_amarelo = 'versao_final/assets/imgs/projetil_amarelo.png'
-            cls._instance.__img_projetil_amarelo = 'versao_final/assets/imgs/projetil_amarelo.png'
-            cls._instance.__img_projetil_inimigo = 'versao_final/assets/imgs/shot4_5.png'
+                f'{caminho_base}assets/imgs/tile000.png', f'{caminho_base}assets/imgs/tile001.png',
+                f'{caminho_base}assets/imgs/tile002.png', f'{caminho_base}assets/imgs/tile003.png',
+                f'{caminho_base}assets/imgs/tile004.png', f'{caminho_base}assets/imgs/tile005.png',
+                f'{caminho_base}assets/imgs/tile006.png', f'{caminho_base}assets/imgs/tile007.png',
+                f'{caminho_base}assets/imgs/tile008.png', f'{caminho_base}assets/imgs/tile009.png',
+                f'{caminho_base}assets/imgs/tile010.png', f'{caminho_base}assets/imgs/tile011.png',
+                f'{caminho_base}assets/imgs/tile012.png', f'{caminho_base}assets/imgs/tile013.png',
+                f'{caminho_base}assets/imgs/tile014.png', f'{caminho_base}assets/imgs/tile015.png',
+                f'{caminho_base}assets/imgs/tile016.png']
+            cls._instance.__inimigo_base = [f'{caminho_base}assets/imgs/inimigobase.png',
+                                            f'{caminho_base}assets/imgs/inimigobase2.png',
+                                            f'{caminho_base}assets/imgs/inimigobase3.png',
+                                            f'{caminho_base}assets/imgs/inimigobase4.png',
+                                            f'{caminho_base}assets/imgs/inimigobaseazul.png',
+                                            f'{caminho_base}assets/imgs/inimigobaseverde.png']
+            cls._instance.__inimigo_zigzag = [f'{caminho_base}assets/imgs/fighter.png']
+            cls._instance.__obstaculo_base = [f'{caminho_base}assets/imgs/meteor.png',
+                                              f'{caminho_base}assets/imgs/meteor2.png',
+                                              f'{caminho_base}assets/imgs/meteor3.png',
+                                              f'{caminho_base}assets/imgs/meteor4.png']
+            cls._instance.__obstaculo_perseguidor = [f'{caminho_base}assets/imgs/perseguidor1.png',
+                                              f'{caminho_base}assets/imgs/perseguidor2.png',
+                                              f'{caminho_base}assets/imgs/perseguidor3.png']
+            cls._instance.__caminho_imagem_coracao_cheio = f'{caminho_base}assets/imgs/coracao_cheio.png'
+            cls._instance.__caminho_imagem_barra_score = f'{caminho_base}assets/imgs/barra_score.png'
+            cls._instance.__audio_gameover = f'{caminho_base}assets/audio/gameover.wav'
+            cls._instance.__audio_tiro = f'{caminho_base}assets/audio/shootjogador.mp3'
+            cls._instance.__audio_jogo = f'{caminho_base}assets/audio/OrbitalColossus.mp3'
+            cls._instance.__audio_explosao = f'{caminho_base}assets/audio/explosion1.ogg'
+            cls._instance.__audio_home = f'{caminho_base}assets/audio/BlindShift.mp3'
+            cls._instance.__img_powerup_armatripla = f'{caminho_base}assets/imgs/speed.png'
+            cls._instance.__img_powerup_armamaisdano = f'{caminho_base}assets/imgs/incrementar.png'
+            cls._instance.__img_powerup_vida = f'{caminho_base}assets/imgs/coracao.png'
+            cls._instance.__img_projetil_verde = f'{caminho_base}assets/imgs/shot1_asset.png'
+            cls._instance.__img_projetil_amarelo = f'{caminho_base}assets/imgs/projetil_amarelo.png'
+            cls._instance.__img_projetil_amarelo = f'{caminho_base}assets/imgs/projetil_amarelo.png'
+            cls._instance.__img_projetil_inimigo = f'{caminho_base}assets/imgs/shot4_5.png'
+            cls._instance.__persistencia = HighscoreManager('versao_final/highscores.json')
 
         return cls._instance
+
+    @property
+    def persistencia(self):
+        return self.__persistencia
+    
+    @persistencia.setter
+    def persistencia(self, persistencia):
+        self.__persistencia = persistencia
+    
+    @property
+    def obstaculo_perseguidor(self):
+        return self.__obstaculo_perseguidor
+    
+    @obstaculo_perseguidor.setter
+    def obstaculo_perseguidor(self, obstaculo_perseguidor):
+        self.__obstaculo_perseguidor = obstaculo_perseguidor
+    
+    @property
+    def audio_explosao(self):
+        return self.__audio_explosao
+    
+    @audio_explosao.setter
+    def audio_explosao(self, audio_explosao):
+        self.__audio_explosao = audio_explosao
 
     @property
     def img_projetil_inimigo(self):

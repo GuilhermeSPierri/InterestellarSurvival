@@ -12,11 +12,11 @@ import pygame, random
 
 
 class Fase:
-    def __init__(self, obstaculos,  projeteis, powerUps, inimigos, tempo_decorrido: float):
-        self.__obstaculos = obstaculos
-        self.__projeteis = projeteis
-        self.__powerUps = powerUps
-        self.__inimigos = inimigos
+    def __init__(self, tempo_decorrido: float):
+        self.__obstaculos = []
+        self.__projeteis = []
+        self.__powerUps = []
+        self.__inimigos = []
         self.__tempo_decorrido = tempo_decorrido
         self.__jogador = None
         self.__dificuldade = Dificuldade()
@@ -34,8 +34,7 @@ class Fase:
         pygame.init()
 
         self.__jogador = Jogador("Player 1", 3, round(self.__config.largura_tela/2), self.__config.altura_tela-30,
-                            Arma("Arma base",
-                                 Projetil(0, 0, 9, 1, []), 300
+                            Arma("Arma base", 300
                             ),
                             6, 0, self.__config.caminho_imagem_jogador,
                             self.__config.sprites_jogador
@@ -144,7 +143,6 @@ class Fase:
                 self.__jogador.mover_baixo()
             tempo_atual = self.__tempo_decorrido
             if tecla[pygame.K_SPACE] and (tempo_atual - tempo_ultimo_tiro) > self.__jogador.arma.cadencia:
-                self.__jogador.arma.som.play()
                 tiros = self.__jogador.arma.atirar(self.__jogador.x + round(horizontal/2), self.__jogador.y)
                 for tiro in tiros:
                     self.__jogador.arma.disparos.add(tiro)
@@ -158,7 +156,7 @@ class Fase:
                 #laço dos inimigos
                 for i in range(len(self.__inimigos)):
                     if random.randrange(0, 100) == 1 and self.__inimigos[i].y>0:
-                        self.__inimigos[i].arma.disparos.add(self.__inimigos[i].arma.atirar(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height())/2,7, 1, []))
+                        self.__inimigos[i].arma.disparos.add(self.__inimigos[i].arma.atirar(self.__inimigos[i].x + (self.__inimigos[i].image.get_width())/2, self.__inimigos[i].y  + (self.__inimigos[i].image.get_height()),7, 1))
                     self.__inimigos[i].arma.disparos.draw(screen)
                     self.__inimigos[i].arma.disparos.update(y)
 
@@ -238,7 +236,7 @@ class Fase:
                     self.__obstaculos[i].rect.y = self.__obstaculos[i].y
                 
                     #movimentacao do obstaculo
-                    self.__obstaculos[i].mover()
+                    self.__obstaculos[i].mover(self.__jogador.rect.x, self.__jogador.rect.y)
 
                     #cria a image do obstaculo [i]
                     screen.blit(self.__obstaculos[i].image, (self.__obstaculos[i].x, self.__obstaculos[i].y))
@@ -307,7 +305,7 @@ class Fase:
             clock.tick(FPS)  # Limita o jogo a 60 FPS
 
             contador += 1 #contador é atualizado de acordo com a execução
-
+        return self.__jogador.pontos
         #pygame.quit()
 
 #Getters e setters da classe

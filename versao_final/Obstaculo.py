@@ -3,12 +3,11 @@ from Arma import Arma
 import random, pygame
 
 class Obstaculo(pygame.sprite.Sprite):
-    def __init__(self, nome: str, vidas: int, x: int, y: int, velocidade: int, image:str, sprites):
+    def __init__(self, nome: str, vidas: int, x: int, y: int, velocidade: int, image:str):
         self.__nome = nome
         self.__vidas = vidas
         self.__velocidade = velocidade
         self.__image = image
-        self.__sprites = sprites
         self.__x = x
         self.__y = y
         self.__maximo_vidas = vidas
@@ -17,22 +16,8 @@ class Obstaculo(pygame.sprite.Sprite):
     def mover_baixo(self):
         self.__y += self.__velocidade
 
-    def mover(self):
+    def mover(self, jogador_x, jogador_y):
         self.mover_baixo()
-        """# Determinar a direção para o jogador
-        if self.x < jogador_x:
-            self.x += 1
-        elif self.x > jogador_x:
-            self.x -= 1
-
-        if self.y < jogador_y:
-            self.y += 1
-        elif self.y > jogador_y:
-            self.y -= 1
-        
-        # Garantir que o inimigo não saia da tela
-        self.x = max(0, min(self.x, 1050))
-        self.y = max(0, min(self.y, 700))"""
 
     def respawn(self, largura, altura=None):
         self.posicao_aleatoria(largura, altura)
@@ -52,14 +37,6 @@ class Obstaculo(pygame.sprite.Sprite):
     @rect.setter
     def rect(self, rect):
         self.__rect = rect
-
-    @property
-    def sprites(self):
-        return self.__sprites
-    
-    @sprites.setter
-    def sprites(self, sprites):
-        self.__sprites = sprites
     
     @property
     def image(self):

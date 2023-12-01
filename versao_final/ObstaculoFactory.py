@@ -16,6 +16,6 @@ class ObstaculoFactory(GameObjectFactory):
 
         vida = random.randint(vida_min, vida_max)
 
-        obstaculo = Obstaculo("Obstáculo", vida, x, y, velocidade, img, None)
+        obstaculo = Obstaculo("Obstáculo", vida, x, y, velocidade, img)
 
         return obstaculo

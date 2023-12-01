@@ -5,7 +5,8 @@ import pygame
 
 class Jogador(Personagem):
     def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, pontos: int, image:str, sprites):
-        super().__init__(nome, vidas, x, y, arma, velocidade, image, sprites)
+        super().__init__(nome, vidas, x, y, arma, velocidade, image)
+        self.__sprites = sprites
         self.__arma_base = arma
         self.__pontos= pontos
         self.__contador = 0
@@ -22,6 +23,13 @@ class Jogador(Personagem):
         #pega o rect da image jogador (usado para verificar colisões)
         self.rect = self.image.get_rect()
 
+    @property
+    def sprites(self):
+        return self.__sprites
+    
+    @sprites.setter
+    def sprites(self, sprites):
+        self.__sprites = sprites
 
     @property
     def arma_base(self):

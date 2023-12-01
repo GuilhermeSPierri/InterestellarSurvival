@@ -17,8 +17,7 @@ class PowerupArmaTripla(Powerup):
         self.speedy = 2
     
     def implementar_power(self, jogador, tempo):
-        jogador.arma = ArmaTripla("Arma tripla",
-                                 Projetil(0, 0, 9, 1, []), 400
+        jogador.arma = ArmaTripla("Arma tripla", 400
                         )
         jogador.coletou_power_up(tempo)
     

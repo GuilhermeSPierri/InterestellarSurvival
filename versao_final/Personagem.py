@@ -3,7 +3,7 @@ from Arma import Arma
 import pygame
 
 class Personagem(pygame.sprite.Sprite, ABC):
-    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, image: str, sprites):
+    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, image: str):
         super().__init__()
         self.__nome = nome
         self.__vidas = vidas
@@ -12,7 +12,6 @@ class Personagem(pygame.sprite.Sprite, ABC):
         self.__arma = arma
         self.__velocidade = velocidade
         self.__image = image
-        self.__sprites = sprites
         self.__rect = None
 
     def mover_esquerda(self):
@@ -43,14 +42,6 @@ class Personagem(pygame.sprite.Sprite, ABC):
     @image.setter
     def image(self, image):
         self.__image = image
-
-    @property
-    def sprites(self):
-        return self.__sprites
-    
-    @sprites.setter
-    def sprites(self, sprites):
-        self.__sprites = sprites
     
     @property
     def nome(self):

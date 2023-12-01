@@ -11,13 +11,7 @@ from Inimigo import Inimigo
 class Jogo:
     def __init__(self):
         self.__fases = [
-            Fase(
-                    [],
-                    None,
-                    None,
-                    [],
-                    None
-                )
+            Fase(0)
         ]
         
     @property
@@ -29,4 +23,4 @@ class Jogo:
         self.__fases = fases
     
     def iniciar_jogo(self):
-        self.__fases[0].iniciar()
+        return self.__fases[0].iniciar()

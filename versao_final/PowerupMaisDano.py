@@ -17,8 +17,7 @@ class PowerupMaisDano(Powerup):
         self.speedy = 2
     
     def implementar_power(self, jogador, tempo):
-        jogador.arma = ArmaMaisDano("Arma com mais dano",
-                                 Projetil(0, 0, 9, 5, []), 320
+        jogador.arma = ArmaMaisDano("Arma com mais dano", 320
                         )
         jogador.coletou_power_up(tempo)
     

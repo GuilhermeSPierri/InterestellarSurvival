@@ -3,8 +3,8 @@ from Arma import Arma
 import random, pygame
 
 class InimigoZigzag(Inimigo):
-    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, image:str, sprites):
-        super().__init__(nome, vidas, x, y, arma, velocidade, image, sprites)
+    def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, image:str):
+        super().__init__(nome, vidas, x, y, arma, velocidade, image)
         self.__direcao_x = 1
 
     def mover(self):

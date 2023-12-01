@@ -28,9 +28,12 @@ class EstadoJogar(EstadoGenerico):
         pygame.mixer.music.load(config.audio_jogo)
         p = Jogo()
         pygame.mixer.music.play(-1)
-        p.iniciar_jogo()
+        pontos = p.iniciar_jogo()
         
-        #logo após o jogo acabar, para a musica e troca de estado
+        #logo após o jogo acabar, para a musica, troca de estado e atualiza a última pontuação
+        config.persistencia.update_highscore('Jogador', pontos)
+        #config.ultima_pontuacao(pontos)
+        #print(pontos)
         pygame.mixer.music.stop()
         self.jogo.mudar_estado(self.jogo.estado_game_over)
 

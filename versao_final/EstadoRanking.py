@@ -18,16 +18,18 @@ class EstadoRanking(EstadoGenerico):
     def desenhar(self):
         config = Configuracoes()
         self.font = pygame.font.Font(config.caminho_fonte1, 36)
+        titulo_fonte = pygame.font.Font(config.caminho_fonte1, 48)  # Nova fonte para o título
+
+        # Criando o texto do título
+        titulo_texto = titulo_fonte.render("Top 5 Melhores Pontuações", True, self.jogo.cor)
+        titulo_rect = titulo_texto.get_rect(center=(1100 // 2, 50))
+
         # Criando o texto que será exibido na tela, divido por linhas
-        
-        linhas = [
-            "1 - Cid: 1000 pontos",
-            "2 - Guilherme: 723 pontos",
-            "3 - Henrique: 425 pontos",
-        ]
+        highscores = config.persistencia.get_leaderboard()
+        linhas_leaderboard = [f"{i + 1}º: {score['score']} pontos" for i, score in enumerate(highscores)]
 
         # Renderizando as linhas de texto
-        self.textos = [self.font.render(linha, True, self.jogo.cor) for linha in linhas]
+        self.textos = [self.font.render(linha, True, self.jogo.cor) for linha in linhas_leaderboard]
 
         # Calculando as posições verticais dos textos
         self.rect_textos = [texto.get_rect(center=(1100 // 2, ((660 // 2)-100) + i * 40)) for i, texto in enumerate(self.textos)]
@@ -36,6 +38,10 @@ class EstadoRanking(EstadoGenerico):
         self.jogo.screen.blit(self.jogo.bg3, (0, self.jogo.bg3_y))
         self.jogo.screen.blit(self.jogo.bg4, (0, self.jogo.bg4_y))
 
+        # Desenhando o título na tela
+        self.jogo.screen.blit(titulo_texto, titulo_rect)
+
+        # Desenhando o botão de voltar
         pygame.draw.rect(self.jogo.screen, (0, 0, 0), self.jogo.rect_voltar, 2)
         self.jogo.screen.blit(self.jogo.texto_voltar, self.jogo.rect_voltar)
 

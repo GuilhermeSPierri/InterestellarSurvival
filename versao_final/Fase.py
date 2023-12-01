@@ -12,11 +12,11 @@ import pygame, random
 
 
 class Fase:
-    def __init__(self, obstaculos,  projeteis, powerUps, inimigos, tempo_decorrido: float):
-        self.__obstaculos = obstaculos
-        self.__projeteis = projeteis
-        self.__powerUps = powerUps
-        self.__inimigos = inimigos
+    def __init__(self, tempo_decorrido: float):
+        self.__obstaculos = []
+        self.__projeteis = []
+        self.__powerUps = []
+        self.__inimigos = []
         self.__tempo_decorrido = tempo_decorrido
         self.__jogador = None
         self.__dificuldade = Dificuldade()
@@ -305,7 +305,7 @@ class Fase:
             clock.tick(FPS)  # Limita o jogo a 60 FPS
 
             contador += 1 #contador é atualizado de acordo com a execução
-
+        return self.__jogador.pontos
         #pygame.quit()
 
 #Getters e setters da classe

@@ -1,3 +1,4 @@
+from HighscoreManager import HighscoreManager
 class Configuracoes:
     _instance = None
 
@@ -63,9 +64,18 @@ class Configuracoes:
             cls._instance.__img_projetil_amarelo = f'{caminho_base}assets/imgs/projetil_amarelo.png'
             cls._instance.__img_projetil_amarelo = f'{caminho_base}assets/imgs/projetil_amarelo.png'
             cls._instance.__img_projetil_inimigo = f'{caminho_base}assets/imgs/shot4_5.png'
+            cls._instance.__persistencia = HighscoreManager('versao_final/highscores.json')
 
         return cls._instance
 
+    @property
+    def persistencia(self):
+        return self.__persistencia
+    
+    @persistencia.setter
+    def persistencia(self, persistencia):
+        self.__persistencia = persistencia
+    
     @property
     def obstaculo_perseguidor(self):
         return self.__obstaculo_perseguidor

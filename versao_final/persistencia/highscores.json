@@ -1,6 +1,14 @@
 [
     {
         "name": "Jogador",
+        "score": 80
+    },
+    {
+        "name": "Jogador",
+        "score": 58
+    },
+    {
+        "name": "Jogador",
         "score": 19
     }
 ]

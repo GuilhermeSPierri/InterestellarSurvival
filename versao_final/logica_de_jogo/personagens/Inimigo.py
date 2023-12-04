@@ -20,4 +20,4 @@ class Inimigo(Personagem):
         self.x = random.randint(1, largura-40)
         
     def mover(self):
-        self.mover_baixo()
+        self.y += self.velocidade

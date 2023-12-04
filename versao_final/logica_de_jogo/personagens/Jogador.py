@@ -2,6 +2,7 @@ from logica_de_jogo.personagens.Personagem import Personagem
 from logica_de_jogo.armas.Arma import Arma
 import pygame
 
+
 class Jogador(Personagem):
     def __init__(self, nome: str, vidas: int, x: int, y: int, arma: Arma, velocidade: int, pontos: int, image:str, sprites):
         super().__init__(nome, vidas, x, y, arma, velocidade, image)
@@ -45,6 +46,18 @@ class Jogador(Personagem):
     @pontos.setter
     def pontos(self, pontos):
         self.__pontos = pontos
+
+    def mover_esquerda(self):
+        self.x -= self.velocidade  
+
+    def mover_direita(self):
+        self.x += self.velocidade  
+    
+    def mover_cima(self):
+        self.y -= self.velocidade  
+    
+    def mover_baixo(self):
+        self.y += self.velocidade
     
     def diminuir_pontos(self, valor):
         if (self.__pontos - valor) < 0:

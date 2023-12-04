@@ -2,7 +2,7 @@ import pygame
 from estados.EstadoGenerico import EstadoGenerico
 from singleton.Configuracoes import Configuracoes
 
-contador = 0
+
 class EstadoMenu(EstadoGenerico):
     def lidar_com_eventos(self, eventos):
         for evento in eventos:

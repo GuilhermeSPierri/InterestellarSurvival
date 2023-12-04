@@ -3,6 +3,7 @@ import sys
 from estados.EstadoGenerico import EstadoGenerico
 from singleton.Configuracoes import Configuracoes
 
+
 class EstadoGameOver(EstadoGenerico):
     def lidar_com_eventos(self, eventos):
         for evento in eventos:
@@ -13,15 +14,12 @@ class EstadoGameOver(EstadoGenerico):
                 pygame.quit()
                 sys.exit()
 
-
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if self.jogo.rect_voltar.collidepoint(evento.pos):
                     self.jogo.mudar_estado(self.jogo.estado_menu)
 
                 elif self.jogo.rect_tentar_novamente.collidepoint(evento.pos):
                     self.jogo.mudar_estado(self.jogo.estado_jogar)
-            
-            
 
     def atualizar(self):
         pass

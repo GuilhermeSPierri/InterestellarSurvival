@@ -7,6 +7,7 @@ from estados.EstadoGameOver import EstadoGameOver
 from estados.EstadoCreditos import EstadoCreditos
 from estados.EstadoRanking import EstadoRanking
 
+
 # Classe principal responsável por cada estado
 class GerenciadoraDeEstados:
     def __init__(self):

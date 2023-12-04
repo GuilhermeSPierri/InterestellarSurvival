@@ -13,7 +13,6 @@ import pygame, random
 class Fase:
     def __init__(self, tempo_decorrido: float):
         self.__obstaculos = []
-        self.__projeteis = []
         self.__powerUps = []
         self.__inimigos = []
         self.__tempo_decorrido = tempo_decorrido
@@ -315,14 +314,6 @@ class Fase:
     @obstaculos.setter
     def obstaculos(self, obstaculos):
         self.__obstaculos = obstaculos
-    
-    @property
-    def projeteis(self):
-        return self.__projeteis
-    
-    @projeteis.setter
-    def projeteis(self, projeteis):
-        self.__projeteis = projeteis
 
     @property
     def powerUps(self):

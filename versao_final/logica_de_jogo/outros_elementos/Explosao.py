@@ -1,5 +1,6 @@
 import pygame
 
+
 class Explosao(pygame.sprite.Sprite):
 	def __init__(self, x, y, sprites):
 		pygame.sprite.Sprite.__init__(self)

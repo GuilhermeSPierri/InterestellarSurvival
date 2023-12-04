@@ -1,5 +1,4 @@
 import random
-
 from logica_de_jogo.personagens.Inimigo import Inimigo
 from logica_de_jogo.armas.ArmaInimigo import ArmaInimigo
 from singleton.Configuracoes import Configuracoes

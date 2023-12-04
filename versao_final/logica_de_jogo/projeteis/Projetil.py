@@ -21,37 +21,6 @@ class Projetil(pygame.sprite.Sprite):
         else:
             self.__rect.y -= self.__velocidade
 
-    def mover_esquerda(self, velocidade_desejada=None):
-        if velocidade_desejada == None:
-            self.__x -= self.__velocidade
-        else:
-            self.__x -= velocidade_desejada
-
-    def mover_direita(self, velocidade_desejada=None):
-        if velocidade_desejada == None:
-            self.__x += self.__velocidade 
-        else:
-            self.__x += velocidade_desejada
-    
-    def mover_cima(self, velocidade_desejada=None):
-        if velocidade_desejada == None:
-            self.__y -= self.__velocidade
-            self.__rect.y -= self.__velocidade
-        else:
-            self.__y -= velocidade_desejada
-            self.__rect.y -= velocidade_desejada
-    
-    def mover_baixo(self, velocidade_desejada=None):
-        if velocidade_desejada == None:
-            self.__y += self.__velocidade
-        else:
-            self.__y += velocidade_desejada
-
-    def respawn(self, pos_x_player, adc_x, pos_y_player, adc_y):
-        self.__x = pos_x_player + adc_x
-        self.__y = pos_y_player + adc_y
-        self.__velocidade = 0
-
     @property
     def rect(self):
         return self.__rect

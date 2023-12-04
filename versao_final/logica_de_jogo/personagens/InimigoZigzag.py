@@ -13,14 +13,12 @@ class InimigoZigzag(Inimigo):
 
         # Alteração na direção gradual do movimento
         chance_mudanca_direcao = random.randint(0, 1000)
-        if chance_mudanca_direcao < 5:  # Ajuste o valor para mudar a frequência da mudança
+        if chance_mudanca_direcao < 5:  # Ajusta o valor para mudar a frequência da mudança
             self.__direcao_x *= -1  # Inverte a direção
 
         self.x += self.velocidade * self.__direcao_x  # Multiplica pela direção
 
         # Limita a posição do inimigo dentro dos limites da tela
-        # Substitua os valores de largura e altura pelos valores corretos da sua tela
-        # (largura e altura da tela ou área de jogo)
         if self.x <= 0:
             self.x = 0
             self.__direcao_x *= -1  # Inverte a direção ao atingir o limite esquerdo

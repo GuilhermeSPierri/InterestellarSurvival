@@ -1,5 +1,6 @@
 import json
 
+
 class HighscoreManager:
     def __init__(self, filename='highscores.json'):
         self.filename = filename

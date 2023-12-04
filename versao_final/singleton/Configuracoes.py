@@ -1,4 +1,6 @@
 from persistencia.HighscoreManager import HighscoreManager
+
+
 class Configuracoes:
     _instance = None
 

@@ -4,6 +4,7 @@ from logica_de_jogo.Jogo import Jogo
 from singleton.Configuracoes import Configuracoes
 import time
 
+
 class EstadoJogar(EstadoGenerico):
     def lidar_com_eventos(self, eventos):
         for evento in eventos:
@@ -15,9 +16,7 @@ class EstadoJogar(EstadoGenerico):
 
                 elif evento.key == pygame.K_SPACE:
                     self.jogo.self.som_shoot_jogador.play() 
-
-
-        
+  
     def atualizar(self):
         pass
 

@@ -15,19 +15,6 @@ class Personagem(pygame.sprite.Sprite, ABC):
         self.__image = image
         self.__rect = None
 
-    def mover_esquerda(self):
-        self.__x -= self.__velocidade  
-
-    def mover_direita(self):
-        self.__x += self.__velocidade  
-    
-    def mover_cima(self):
-        self.__y -= self.__velocidade  
-    
-    def mover_baixo(self):
-        self.__y += self.__velocidade
-
-#Getters e setters da classe
     @property
     def rect(self):
         return self.__rect
@@ -91,19 +78,3 @@ class Personagem(pygame.sprite.Sprite, ABC):
     @velocidade.setter
     def velocidade(self, velocidade):
         self.__velocidade = velocidade
-
-#Demais métodos
-"""
-    @abstractmethod
-    def levar_dano(self):
-        pass
-
-    @abstractmethod
-    def atirar(self):
-        pass
-
-    @abstractmethod
-    def mover(self):
-        pass
-        
-"""

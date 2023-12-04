@@ -2,6 +2,7 @@ import pygame
 from estados.EstadoGenerico import EstadoGenerico
 from singleton.Configuracoes import Configuracoes
 
+
 class EstadoCreditos(EstadoGenerico):
     def lidar_com_eventos(self, eventos):
         for evento in eventos:

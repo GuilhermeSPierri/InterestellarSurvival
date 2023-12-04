@@ -1,6 +1,7 @@
 from logica_de_jogo.obstaculos.Obstaculo import Obstaculo
 import math
 
+
 class ObstaculoPerseguidor(Obstaculo):
     def __init__(self, nome: str, vidas: int, x: int, y: int, velocidade: int, image:str):
         super().__init__(nome, vidas, x, y, velocidade, image)

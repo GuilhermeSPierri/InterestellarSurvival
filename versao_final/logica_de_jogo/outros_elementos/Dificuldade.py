@@ -4,6 +4,7 @@ from factories.ObstaculoFactory import ObstaculoFactory
 from factories.ObstaculoPerseguidorFactory import ObstaculoPerseguidorFactory
 import pygame
 
+
 class Dificuldade():
 
     def __init__(self):

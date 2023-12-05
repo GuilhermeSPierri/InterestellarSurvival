@@ -113,7 +113,6 @@ class Dificuldade():
         
         elif self.__nivel == 4 and tempo >= 45000:
             self.__nivel += 1
-            tamanho_onda_obstaculo_perseguidor = 1
             tamanho_onda_inimigo_zig_zag = 3
             
             

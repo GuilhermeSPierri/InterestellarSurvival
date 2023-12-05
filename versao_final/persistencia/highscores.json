@@ -1,7 +1,15 @@
 [
     {
         "name": "Jogador",
+        "score": 112
+    },
+    {
+        "name": "Jogador",
         "score": 80
+    },
+    {
+        "name": "Jogador",
+        "score": 78
     },
     {
         "name": "Jogador",
@@ -9,14 +17,6 @@
     },
     {
         "name": "Jogador",
-        "score": 58
-    },
-    {
-        "name": "Jogador",
-        "score": 51
-    },
-    {
-        "name": "Jogador",
-        "score": 39
+        "score": 69
     }
 ]

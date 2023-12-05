@@ -75,7 +75,7 @@ class Jogador(Personagem):
         else:
             self.__contador += 1
 
-        if pygame.time.get_ticks() - self.__power > 20000:
+        if pygame.time.get_ticks() - self.__power > 13000:
             self.arma = self.__arma_base
             self.__power = 0
         

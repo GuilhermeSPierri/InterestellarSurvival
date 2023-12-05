@@ -126,7 +126,7 @@ class Dificuldade():
             obstaculos.append(obstaculo)
         
         for i in range(tamanho_onda_obstaculo_perseguidor):
-            obstaculo = self.__obstaculo_perseguidor_factory.criar_objeto(0, -3500, 4, 5, 1, 2)
+            obstaculo = self.__obstaculo_perseguidor_factory.criar_objeto(0, -3500, 3, 5, 1, 2)
             obstaculo.image = pygame.image.load(obstaculo.image).convert_alpha()
             obstaculo.image = pygame.transform.scale(obstaculo.image, (50, 50))
             obstaculo.posicao_aleatoria(x, -1000)

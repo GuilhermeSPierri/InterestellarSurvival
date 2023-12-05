@@ -18,3 +18,11 @@ Aqui vai um exemplo de TODO list contendo as etapas.
 - [x] Interface Gráfica
 - [x] Protótipo do jogo
 - [x] Versão final com relatório e vídeo
+
+# Interestellar Survival - Projeto final do grupo 3
+### Alunos: Cid Fernando Sette de Borba, Guilherme da Silva Pierri, Henrique Mateus Teodoro
+O projeto, que foi desenvolvido na disciplina de Programação Orientada a Objetos II, semestre 2023.2, do curso de Ciências da Computação, trata-se trata-se de um jogo 2D de sobrevivência espacial que coloca os jogadores no papel de um habilidoso piloto espacial, lutando contra ondas intermináveis de naves inimigas e obstáculos em um vasto e perigoso cosmos. O objetivo é sobreviver o maior tempo possível, destruindo inimigos para obter pontos.
+### Dependências
+- Pygame: `pip install pygame`
+### Uso
+- Abrir o terminal dentro da pasta do jogo e digitar o seguinte comando: `python ./versao_final/main.py`

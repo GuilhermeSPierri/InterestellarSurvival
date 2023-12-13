@@ -25,4 +25,6 @@ O projeto, que foi desenvolvido na disciplina de Programação Orientada a Objet
 ### Dependências
 - Pygame: `pip install pygame`
 ### Uso
-- Abrir o terminal dentro da pasta do jogo e digitar o seguinte comando: `python ./versao_final/Main.py`
+1. Fazer um clone do projeto;
+2. Se mover para o diretório "projeto-final-grupo-3-23-2";
+3. Digitar o seguinte comando: `python ./versao_final/Main.py`

@@ -27,4 +27,4 @@ O projeto, que foi desenvolvido na disciplina de Programação Orientada a Objet
 ### Uso
 1. Fazer um clone do projeto;
 2. Se mover para o diretório "projeto-final-grupo-3-23-2";
-3. Digitar o seguinte comando: `python ./versao_final/Main.py`
+3. Digitar o seguinte comando: `python3 ./versao_final/Main.py`
